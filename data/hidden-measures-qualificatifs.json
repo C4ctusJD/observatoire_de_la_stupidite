@@ -1,0 +1,154 @@
+{
+  "_meta": {
+    "description": "Qualificatifs associés aux 6 mesures comportementales cachées.",
+    "obligatoire": [
+      "mesure",
+      "qualificatifs",
+      "id",
+      "nom",
+      "description",
+      "seuil"
+    ],
+    "note": "Fichier non scientifique : les qualificatifs décrivent des observations ludiques dans le cadre de l'expérience."
+  },
+"mesures": [
+    {
+      "mesure": "temps_avant_reponse",
+      "qualificatifs": [
+        {
+          "id": "temps_avant_reponse-bas",
+          "nom": "supersonique",
+          "description": "La réponse a été produite avant même que la question ait fini d’arriver. Le comité soupçonne une légère avance sur le temps réglementaire.",
+          "seuil": null
+        },
+        {
+          "id": "temps_avant_reponse-moyen",
+          "nom": "posé",
+          "description": "Un temps de réflexion raisonnable, suffisamment long pour inspirer confiance mais pas assez pour déclencher une réunion extraordinaire.",
+          "seuil": null
+        },
+        {
+          "id": "temps_avant_reponse-haut",
+          "nom": "méditatif",
+          "description": "La réponse a bénéficié d’une période de maturation approfondie. Une partie du raisonnement semble toutefois être partie chercher du thé.",
+          "seuil": null
+        }
+      ]
+    },
+    {
+      "mesure": "changements_reponse",
+      "qualificatifs": [
+        {
+          "id": "changements_reponse-bas",
+          "nom": "inébranlable",
+          "description": "La première décision a été maintenue avec une remarquable stabilité institutionnelle. Même les indices contraires ont été priés de patienter dans le couloir.",
+          "seuil": null
+        },
+        {
+          "id": "changements_reponse-moyen",
+          "nom": "trouillard",
+          "description": "Quelques hésitations ont été observées face à l’incertitude. Le service recommande l’installation temporaire d’une rambarde mentale.",
+          "seuil": null
+        },
+        {
+          "id": "changements_reponse-haut",
+          "nom": "lunatique",
+          "description": "La réponse a connu plusieurs orientations successives, comme si elle suivait une météo intérieure particulièrement changeante.",
+          "seuil": null
+        }
+      ]
+    },
+    {
+      "mesure": "retours_arriere",
+      "qualificatifs": [
+        {
+          "id": "retours_arriere-bas",
+          "nom": "buté",
+          "description": "Aucun retour sur les étapes précédentes n’a été jugé nécessaire. La trajectoire choisie a été suivie avec la détermination d’un meuble lourd.",
+          "seuil": null
+        },
+        {
+          "id": "retours_arriere-moyen",
+          "nom": "pointilleux",
+          "description": "Plusieurs vérifications ont été menées avec sérieux. L’existence d’un détail minuscule mais capital reste actuellement sous enquête.",
+          "seuil": null
+        },
+        {
+          "id": "retours_arriere-haut",
+          "nom": "archéologue",
+          "description": "Les étapes précédentes ont été minutieusement déterrées, examinées et probablement comparées à des événements vieux de plusieurs civilisations.",
+          "seuil": null
+        }
+      ]
+    },
+    {
+      "mesure": "clics_secondaires",
+      "qualificatifs": [
+        {
+          "id": "clics_secondaires-bas",
+          "nom": "laconique",
+          "description": "Les éléments secondaires ont été laissés dans un silence administratif presque total. Seul l’essentiel a reçu l’autorisation d’exister.",
+          "seuil": null
+        },
+        {
+          "id": "clics_secondaires-moyen",
+          "nom": "opportuniste",
+          "description": "Les informations complémentaires ont été consultées avec discernement, principalement lorsqu’elles semblaient susceptibles de résoudre quelque chose.",
+          "seuil": null
+        },
+        {
+          "id": "clics_secondaires-haut",
+          "nom": "tripoteur",
+          "description": "Les boutons, onglets et petits éléments interactifs ont fait l’objet d’une exploration particulièrement soutenue. L’interface demande encore à être rassurée.",
+          "seuil": null
+        }
+      ]
+    },
+    {
+      "mesure": "utilisation_aide",
+      "qualificatifs": [
+        {
+          "id": "utilisation_aide-bas",
+          "nom": "arrogant",
+          "description": "L’aide a été ignorée avec une confiance impressionnante. Le dossier indique que la solution devait forcément apparaître par respect pour le talent.",
+          "seuil": null
+        },
+        {
+          "id": "utilisation_aide-moyen",
+          "nom": "obtus",
+          "description": "Les indications disponibles ont été consultées avec modération, puis interprétées selon une logique personnelle dont les services compétents cherchent encore le mode d’emploi.",
+          "seuil": null
+        },
+        {
+          "id": "utilisation_aide-haut",
+          "nom": "dépendant",
+          "description": "L’aide a été sollicitée avec une belle régularité. Le comité rappelle qu’elle ne peut pas encore répondre aux questions existentielles.",
+          "seuil": null
+        }
+      ]
+    },
+    {
+      "mesure": "completude",
+      "qualificatifs": [
+        {
+          "id": "completude-bas",
+          "nom": "négligeant",
+          "description": "Certaines informations ont été abandonnées en cours de route, probablement pour alléger la mission ou par confiance excessive dans la magie du contexte.",
+          "seuil": null
+        },
+        {
+          "id": "completude-moyen",
+          "nom": "tête en l'air",
+          "description": "L’ensemble est globalement présent, avec quelques éléments égarés dans une dimension parallèle. Une fouille des poches est recommandée.",
+          "seuil": null
+        },
+        {
+          "id": "completude-haut",
+          "nom": "exhaustif",
+          "description": "Chaque élément a été traité avec une précision remarquable. Même les détails dont personne ne soupçonnait l’existence figurent au dossier.",
+          "seuil": null
+        }
+      ]
+    }
+  ]
+}
