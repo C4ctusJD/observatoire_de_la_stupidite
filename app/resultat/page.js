@@ -51,8 +51,8 @@ export default async function ResultatPage() {
         </ul>
 
         <p style={{ marginTop: 12, color: "#3B3B3B" }}>
-          Si les compteurs ne sont pas > 0, on ajustera le “normalize” selon la structure
-          exacte de tes JSON.
+          Si les compteurs ne sont pas positifs (strictement supérieurs à zéro), on ajustera
+          le “normalize” selon la structure exacte de tes JSON.
         </p>
       </div>
     </main>
