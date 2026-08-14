@@ -1,0 +1,64 @@
+{
+  "_meta": {
+    "description": "Référentiel des catégories thématiques utilisées pour classer les questions et calculer les scores par catégorie.",
+    "obligatoire": [
+      "id",
+      "label",
+      "description_resultat"
+    ],
+    "types": "id et label sont des chaînes ; description_resultat est une chaîne, laissée vide comme emplacement réservé.",
+    "consigne": "Utiliser uniquement les identifiants listés ici dans le champ categorie de questions.json. Pour ajouter une catégorie, ajoutez un objet avec un nouvel id en slug minuscule avec tirets, un label affichable et une description_resultat, puis associez-y des questions."
+  },
+  "categories": [
+    {
+      "id": "precipitation",
+      "label": "Précipitation",
+      "description_resultat": ""
+    },
+    {
+      "id": "confiance-excessive",
+      "label": "Confiance excessive",
+      "description_resultat": ""
+    },
+    {
+      "id": "mauvaise-foi",
+      "label": "Mauvaise foi",
+      "description_resultat": ""
+    },
+    {
+      "id": "credulite",
+      "label": "Crédulité",
+      "description_resultat": ""
+    },
+    {
+      "id": "rationalisation",
+      "label": "Rationalisation",
+      "description_resultat": ""
+    },
+    {
+      "id": "inattention",
+      "label": "Inattention",
+      "description_resultat": ""
+    },
+    {
+      "id": "effet-de-groupe",
+      "label": "Effet de groupe",
+      "description_resultat": ""
+    },
+    {
+      "id": "surinterpretation",
+      "label": "Surinterprétation",
+      "description_resultat": ""
+    },
+    {
+      "id": "acharnement-inutile",
+      "label": "Acharnement inutile",
+      "description_resultat": ""
+    },
+    {
+      "id": "reaction-disproportionnee",
+      "label": "Réaction disproportionnée",
+      "description_resultat": ""
+    }
+  ]
+}
