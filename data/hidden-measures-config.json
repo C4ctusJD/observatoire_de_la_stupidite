@@ -1,0 +1,104 @@
+{
+  "_meta": {
+    "description": "Configuration technique des 6 mesures comportementales cachées.",
+    "version": "1.0",
+    "note": "Les seuils bas/moyen/haut sont définis en indices normalisés 0-100. À affiner après tests utilisateurs."
+  },
+  "parametres_globaux": {
+    "temps_reference_secondes": 10,
+    "clics_minimum_reference": 90,
+    "note": "Ces valeurs sont des points de départ et seront ajustées après tests réels."
+  },
+  "mesures": [
+    {
+      "id": "temps_avant_reponse",
+      "nom": "Temps avant réponse",
+      "description": "Temps écoulé entre l'affichage de la question et la validation de la réponse.",
+      "type": "secondes",
+      "calcul": {
+        "formule": "(temps_moyen_par_question - 10) / 10 * 50 + 50",
+        "explication": "Temps moyen normalisé. 10s = indice 50. < 10s = bas (supersonique). > 10s = haut (méditatif)."
+      },
+      "seuils": {
+        "bas": { "min": 0, "max": 33, "qualificatif_id": "temps_avant_reponse-bas" },
+        "moyen": { "min": 34, "max": 66, "qualificatif_id": "temps_avant_reponse-moyen" },
+        "haut": { "min": 67, "max": 100, "qualificatif_id": "temps_avant_reponse-haut" }
+      }
+    },
+    {
+      "id": "changements_reponse",
+      "nom": "Changements de réponse",
+      "description": "Nombre de fois où l'utilisateur a changé sa réponse AVANT et APRÈS validation.",
+      "type": "nombre",
+      "calcul": {
+        "formule": "Math.min(changements_totaux / 3 * 100, 100)",
+        "explication": "Chaque changement contribue. 3+ changements = haut (lunatique)."
+      },
+      "seuils": {
+        "bas": { "min": 0, "max": 33, "qualificatif_id": "changements_reponse-bas" },
+        "moyen": { "min": 34, "max": 66, "qualificatif_id": "changements_reponse-moyen" },
+        "haut": { "min": 67, "max": 100, "qualificatif_id": "changements_reponse-haut" }
+      }
+    },
+    {
+      "id": "retours_arriere",
+      "nom": "Retours en arrière",
+      "description": "Nombre de fois où l'utilisateur est revenu à une question précédente AVANT et APRÈS validation.",
+      "type": "nombre",
+      "calcul": {
+        "formule": "Math.min(retours_totaux / 5 * 100, 100)",
+        "explication": "Chaque retour compte. 5+ retours = haut (archéologue)."
+      },
+      "seuils": {
+        "bas": { "min": 0, "max": 33, "qualificatif_id": "retours_arriere-bas" },
+        "moyen": { "min": 34, "max": 66, "qualificatif_id": "retours_arriere-moyen" },
+        "haut": { "min": 67, "max": 100, "qualificatif_id": "retours_arriere-haut" }
+      }
+    },
+    {
+      "id": "clics_secondaires",
+      "nom": "Clics secondaires",
+      "description": "Écart entre le nombre total de clics effectués et le minimum requis (90).",
+      "type": "nombre",
+      "calcul": {
+        "formule": "Math.min((clics_totaux - 90) / 30 * 100, 100)",
+        "explication": "90 clics = indice 0 (laconique). 120 clics = indice 100 (tripoteur). Cap à 100."
+      },
+      "seuils": {
+        "bas": { "min": 0, "max": 33, "qualificatif_id": "clics_secondaires-bas" },
+        "moyen": { "min": 34, "max": 66, "qualificatif_id": "clics_secondaires-moyen" },
+        "haut": { "min": 67, "max": 100, "qualificatif_id": "clics_secondaires-haut" }
+      }
+    },
+    {
+      "id": "utilisation_aide",
+      "nom": "Utilisation de l'aide",
+      "description": "Nombre de fois où le bouton 'Aide' a été cliqué au cours du test.",
+      "type": "nombre",
+      "calcul": {
+        "formule": "Math.min(clics_aide / 5 * 100, 100)",
+        "explication": "0 clics = bas (arrogant). 5+ clics = haut (dépendant)."
+      },
+      "seuils": {
+        "bas": { "min": 0, "max": 33, "qualificatif_id": "utilisation_aide-bas" },
+        "moyen": { "min": 34, "max": 66, "qualificatif_id": "utilisation_aide-moyen" },
+        "haut": { "min": 67, "max": 100, "qualificatif_id": "utilisation_aide-haut" }
+      }
+    },
+    {
+      "id": "completude",
+      "nom": "Complétude",
+      "description": "Pourcentage de champs/éléments traités par rapport à ceux attendus.",
+      "type": "pourcentage",
+      "calcul": {
+        "formule": "100 - ((elements_attendus - elements_traites) / elements_attendus * 100)",
+        "explication": "100% = exhaustif. < 95% = bas (négligeant). Cf. structure des questions."
+      },
+      "seuils": {
+        "bas": { "min": 0, "max": 33, "qualificatif_id": "completude-bas" },
+        "moyen": { "min": 34, "max": 66, "qualificatif_id": "completude-moyen" },
+        "haut": { "min": 67, "max": 100, "qualificatif_id": "completude-haut" }
+      }
+    }
+  ]
+}
