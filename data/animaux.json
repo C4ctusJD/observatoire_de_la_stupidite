@@ -1,0 +1,97 @@
+{
+  "_meta": {
+    "description": "Liste des catégories d'animaux totems et de leurs tranches de score.",
+    "obligatoire": [
+      "id",
+      "nom",
+      "score_min",
+      "score_max",
+      "description",
+      "illustration"
+    ],
+    "types": "id, nom, description et illustration sont des chaînes ; score_min et score_max sont des nombres.",
+    "consigne": "Remplacer chaque valeur EXEMPLE par une valeur validée. Les tranches ne doivent pas se chevaucher et doivent couvrir les scores réellement produits. illustration est un chemin de fichier, pas une URL ni une image intégrée."
+  },
+  "animaux": [
+    {
+      "id": "animal-01",
+      "nom": "Dauphin",
+      "score_min": 0,
+      "score_max": 9,
+      "description": "Votre niveau de stupidité est actuellement très faible, ce qui est plutôt rassurant pour vous et légèrement vexant pour les autres animaux. Vous êtes capable de comprendre une consigne, d’anticiper les conséquences et, dans certains cas, de retrouver la sortie sans assistance. L’Observatoire reste toutefois prudent : même les dauphins font parfois confiance à des humains qui sifflent.",
+      "illustration": "/images/EXEMPLE-animal-01.svg"
+    },
+    {
+      "id": "animal-02",
+      "nom": "Chimpanzé",
+      "score_min": 10,
+      "score_max": 19,
+      "description": "Votre intelligence fonctionne correctement, mais elle aime parfois prendre des chemins détournés. Vous comprenez généralement ce qui se passe, sauf lorsque l’occasion de faire quelque chose de compliqué se présente. Vous êtes donc parfaitement capable de résoudre un problème simple, après l’avoir observé sous plusieurs angles et légèrement aggravé.",
+      "illustration": "/images/EXEMPLE-animal-02.svg"
+    },
+    {
+      "id": "animal-03",
+      "nom": "Corbeau",
+      "score_min": 20,
+      "score_max": 29,
+      "description": "Votre niveau général est plutôt satisfaisant, avec une tendance appréciable à réfléchir avant de vous lancer. Vous savez reconnaître les situations suspectes et conserver les informations utiles, notamment celles qui pourraient servir à prouver que vous aviez raison. Une intelligence solide, donc, parfois accompagnée d’un léger goût pour le drame.",
+      "illustration": "/images/EXEMPLE-animal-03.svg"
+    },
+    {
+      "id": "animal-04",
+      "nom": "Chat",
+      "score_min": 30,
+      "score_max": 39,
+      "description": "Vous disposez de capacités honorables, mais vous ne les utilisez que lorsque la situation vous semble suffisamment intéressante. Le reste du temps, vous préférez observer le problème en silence, faire semblant de ne pas comprendre et attendre que quelqu’un d’autre s’en occupe. Votre potentiel est réel, mais il est actuellement en pause.",
+      "illustration": "/images/EXEMPLE-animal-04.svg"
+    },
+    {
+      "id": "animal-05",
+      "nom": "Chien",
+      "score_min": 40,
+      "score_max": 49,
+      "description": "Votre niveau de stupidité reste modéré et globalement sympathique. Vous comprenez les choses, surtout lorsqu’elles sont accompagnées d’une récompense, d’un encouragement ou d’un bruit de paquet. Votre raisonnement manque parfois de recul, mais votre enthousiasme compense largement cette petite faiblesse administrative.",
+      "illustration": "/images/EXEMPLE-animal-05.svg"
+    },
+    {
+      "id": "animal-06",
+      "nom": "Chèvre",
+      "score_min": 50,
+      "score_max": 59,
+      "description": "Vous avancez dans l’existence avec une logique personnelle, difficile à contester puisqu’elle semble fonctionner pour vous. Vous pouvez parfaitement prendre une bonne décision, mais vous préférez souvent vérifier si une décision étrange ne serait pas plus amusante. L’Observatoire note une certaine solidité mentale, malheureusement orientée vers des objectifs discutables.",
+      "illustration": "/images/EXEMPLE-animal-06.svg"
+    },
+    {
+      "id": "animal-07",
+      "nom": "Poule",
+      "score_min": 60,
+      "score_max": 69,
+      "description": "Votre intelligence est bien présente, mais elle se manifeste principalement par épisodes. Vous pouvez comprendre une situation complexe, puis perdre le fil à cause d’un bruit, d’un mouvement ou d’un caillou légèrement suspect. Vous avancez avec courage, vous picorez quelques idées et vous espérez que la solution apparaîtra parmi les miettes.",
+      "illustration": "/images/EXEMPLE-animal-07.svg"
+    },
+    {
+      "id": "animal-08",
+      "nom": "Poisson rouge",
+      "score_min": 70,
+      "score_max": 79,
+      "description": "Votre niveau de stupidité commence à devenir préoccupant pour les objets qui vous entourent. Vous avez parfois une bonne idée, mais elle risque de disparaître avant d’avoir atteint sa destination. Heureusement, chaque nouvelle situation vous offre l’occasion de tout recommencer avec une confiance intacte.",
+      "illustration": "/images/EXEMPLE-animal-08.svg"
+    },
+    {
+      "id": "animal-09",
+      "nom": "Limace",
+      "score_min": 80,
+      "score_max": 89,
+      "description": "Votre fonctionnement intellectuel semble avoir été conçu pour éviter toute décision précipitée. Chaque conclusion est longuement approchée, examinée, puis éventuellement abandonnée en chemin. Vous n’êtes pas nécessairement perdu : vous progressez simplement vers une réponse située à une distance considérable du point de départ.",
+      "illustration": "/images/EXEMPLE-animal-09.svg"
+    },
+    {
+      "id": "animal-10",
+      "nom": "Caillou",
+      "score_min": 90,
+      "score_max": 100,
+      "description": "L’Observatoire a longuement étudié votre résultat avant de conclure que vous étiez probablement posé quelque part. Votre niveau de stupidité atteint ici une forme remarquable de tranquillité : aucune panique, aucune remise en question, et très peu de mouvements intellectuels détectables. Il faut reconnaître une qualité essentielle au caillou : il ne prend jamais une mauvaise décision sans y être poussé.",
+      "illustration": "/images/EXEMPLE-animal-10.svg"
+    }
+  ]
+}
