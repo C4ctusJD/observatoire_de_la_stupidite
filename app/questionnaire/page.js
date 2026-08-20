@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import questionsData from "../../data/questions.json";
 
 export default function PageQuestionnaire() {
-  const questions = questionsData.questions;
+  const [questions, setQuestions] = useState([]);
   if (!Array.isArray(questions) || questions.length === 0) {
   return <p>Aucune question disponible.</p>;
 }
@@ -13,9 +13,21 @@ export default function PageQuestionnaire() {
   const [reponsesMelangees, setReponsesMelangees] = useState([]);
   const [reponseValidee, setReponseValidee] = useState(false);
 
-  const questionActuelle = questions[questionIndex];
+  if (questions.length === 0) {
+  return <p>Préparation du protocole d’observation...</p>;
+}
+
+const questionActuelle = questions[questionIndex];
   const derniereQuestion = questionIndex === questions.length - 1;
 
+  useEffect(() => {
+  const questionsMelangees = [...questionsData.questions];
+
+  questionsMelangees.sort(() => Math.random() - 0.5);
+
+  setQuestions(questionsMelangees);
+}, []);
+  
   useEffect(() => {
     const reponses = [...questionActuelle.reponses];
 
