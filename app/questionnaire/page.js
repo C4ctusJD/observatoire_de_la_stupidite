@@ -1,29 +1,34 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import questionsData from "../../data/questions.json";
 
 export default function PageQuestionnaire() {
-  const [questions] = useState(() => {
-  const questionsMelangees = [...questionsData.questions];
+  const questions = useMemo(() => {
+    const questionsMelangees = [...questionsData.questions];
 
-  questionsMelangees.sort(() => Math.random() - 0.5);
+    for (let i = questionsMelangees.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
 
-  return questionsMelangees;
-});
-  if (!Array.isArray(questions) || questions.length === 0) {
-  return <p>Aucune question disponible.</p>;
-}
+      [questionsMelangees[i], questionsMelangees[j]] = [
+        questionsMelangees[j],
+        questionsMelangees[i],
+      ];
+    }
+
+    return questionsMelangees;
+  }, []);
+
   const [questionIndex, setQuestionIndex] = useState(0);
   const [reponsesChoisies, setReponsesChoisies] = useState({});
   const [reponsesMelangees, setReponsesMelangees] = useState([]);
   const [reponseValidee, setReponseValidee] = useState(false);
 
-  if (questions.length === 0) {
-  return <p>Préparation du protocole d’observation...</p>;
-}
+  if (!questions || questions.length === 0) {
+    return <p>Aucune question disponible.</p>;
+  }
 
-const questionActuelle = questions[questionIndex];
+  const questionActuelle = questions[questionIndex];
   const derniereQuestion = questionIndex === questions.length - 1;
 
 
