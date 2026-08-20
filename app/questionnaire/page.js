@@ -4,7 +4,13 @@ import { useEffect, useState } from "react";
 import questionsData from "../../data/questions.json";
 
 export default function PageQuestionnaire() {
-  const [questions, setQuestions] = useState([]);
+  const [questions] = useState(() => {
+  const questionsMelangees = [...questionsData.questions];
+
+  questionsMelangees.sort(() => Math.random() - 0.5);
+
+  return questionsMelangees;
+});
   if (!Array.isArray(questions) || questions.length === 0) {
   return <p>Aucune question disponible.</p>;
 }
@@ -20,14 +26,7 @@ export default function PageQuestionnaire() {
 const questionActuelle = questions[questionIndex];
   const derniereQuestion = questionIndex === questions.length - 1;
 
-  useEffect(() => {
-  const questionsMelangees = [...questionsData.questions];
 
-  questionsMelangees.sort(() => Math.random() - 0.5);
-
-  setQuestions(questionsMelangees);
-}, []);
-  
   useEffect(() => {
     const reponses = [...questionActuelle.reponses];
 
