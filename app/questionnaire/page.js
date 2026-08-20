@@ -5,7 +5,9 @@ import questionsData from "../../data/questions.json";
 
 export default function PageQuestionnaire() {
   const questions = questionsData.questions;
-
+  if (!Array.isArray(questions) || questions.length === 0) {
+  return <p>Aucune question disponible.</p>;
+}
   const [questionIndex, setQuestionIndex] = useState(0);
   const [reponsesChoisies, setReponsesChoisies] = useState({});
   const [reponsesMelangees, setReponsesMelangees] = useState([]);
