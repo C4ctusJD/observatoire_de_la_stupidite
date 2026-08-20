@@ -22,10 +22,8 @@ export default function PageQuestionnaire() {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [reponsesChoisies, setReponsesChoisies] = useState({});
   const [reponsesMelangees, setReponsesMelangees] = useState([]);
-  const [reponseValidee, setReponseValidee] = useState(false);
 
   const questionActuelle = questions[questionIndex];
-  const derniereQuestion = questionIndex === questions.length - 1;
 
   useEffect(() => {
     if (!questionActuelle) {
@@ -37,39 +35,30 @@ export default function PageQuestionnaire() {
     reponses.sort(() => Math.random() - 0.5);
 
     setReponsesMelangees(reponses);
-
-    setReponseValidee(
-      Boolean(reponsesChoisies[questionActuelle.id])
-    );
-  }, [questionIndex, questionActuelle, reponsesChoisies]);
+  }, [questionIndex, questionActuelle]);
 
   if (!questions || questions.length === 0) {
     return <p>Aucune question disponible.</p>;
   }
 
+  const derniereQuestion = questionIndex === questions.length - 1;
   const reponseChoisie = reponsesChoisies[questionActuelle.id];
 
   function choisirReponse(reponseId) {
-    if (reponseValidee) {
-      return;
-    }
-
     setReponsesChoisies((reponsesActuelles) => ({
       ...reponsesActuelles,
       [questionActuelle.id]: reponseId,
     }));
   }
 
-  function validerReponse() {
-    setReponseValidee(true);
-
-    if (!derniereQuestion) {
-      setQuestionIndex((index) => index + 1);
-    }
-  }
-
   function modifierReponse() {
-    setReponseValidee(false);
+    setReponsesChoisies((reponsesActuelles) => {
+      const nouvellesReponses = { ...reponsesActuelles };
+
+      delete nouvellesReponses[questionActuelle.id];
+
+      return nouvellesReponses;
+    });
   }
 
   function questionPrecedente() {
@@ -155,7 +144,6 @@ export default function PageQuestionnaire() {
               <button
                 key={reponse.id}
                 onClick={() => choisirReponse(reponse.id)}
-                disabled={reponseValidee}
                 style={{
                   display: "block",
                   width: "100%",
@@ -169,7 +157,7 @@ export default function PageQuestionnaire() {
                     : "#FFFFFF",
                   color: "#000000",
                   textAlign: "left",
-                  cursor: reponseValidee ? "default" : "pointer",
+                  cursor: "pointer",
                   fontSize: "1rem",
                 }}
               >
@@ -208,15 +196,12 @@ export default function PageQuestionnaire() {
             </button>
           )}
 
-          {!reponseValidee ? (
-            <button onClick={validerReponse}>
-              Valider la réponse
-            </button>
-          ) : (
-            <button onClick={modifierReponse}>
-              Modifier la réponse
-            </button>
-          )}
+          <button
+            onClick={modifierReponse}
+            disabled={!reponseChoisie}
+          >
+            Modifier la réponse
+          </button>
         </div>
       </section>
     </main>
