@@ -81,9 +81,30 @@ export default function PageQuestionnaire() {
     }
   }
 
-  function terminerQuestionnaire() {
-    alert("Questionnaire terminé. Les résultats arriveront prochainement.");
-  }
+   function terminerQuestionnaire() {
+    const scoreTotal = questions.reduce((total, question) => {
+    const reponseId = reponsesChoisies[question.id];
+
+    const reponseSelectionnee = question.reponses.find(
+      (reponse) => reponse.id === reponseId
+    );
+
+    return total + (reponseSelectionnee?.score ?? 0);
+  }, 0);
+
+    const scoreMaximum = questions.length * 3;
+
+    const indiceStupidite = Math.round(
+    (scoreTotal / scoreMaximum) * 100
+  );
+
+  alert(
+    `Questionnaire terminé.\n\n` +
+      `Score observé : ${scoreTotal} / ${scoreMaximum}\n` +
+      `Indice de stupidité : ${indiceStupidite} / 100\n\n` +
+      `Résultat fictif, humoristique et non scientifique.`
+  );
+}
 
   return (
     <main
