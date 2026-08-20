@@ -94,31 +94,31 @@ export default function PageQuestionnaire() {
     setQuestionIndex((index) => index + 1);
   }
 
-  function terminerQuestionnaire() {
-    const scoreTotal = questions.reduce((total, question) => {
-      const reponseId = reponsesChoisies[question.id];
+function terminerQuestionnaire() {
+  const scoreTotal = questions.reduce((total, question) => {
+    const reponseId = reponsesChoisies[question.id];
 
-      const reponseSelectionnee = question.reponses.find(
-        (reponse) => reponse.id === reponseId
-      );
-
-      return total + (reponseSelectionnee?.score ?? 0);
-    }, 0);
-
-    const scoreMaximum = questions.length * 3;
-
-    const indiceStupidite =
-      scoreMaximum > 0
-        ? Math.round((scoreTotal / scoreMaximum) * 100)
-        : 0;
-
-    alert(
-      `Questionnaire terminé.\n\n` +
-        `Score observé : ${scoreTotal} / ${scoreMaximum}\n` +
-        `Indice de stupidité : ${indiceStupidite} / 100\n\n` +
-        `Résultat fictif, humoristique et non scientifique.`
+    const reponseSelectionnee = question.reponses.find(
+      (reponse) => reponse.id === reponseId
     );
-  }
+
+    return total + (reponseSelectionnee?.score ?? 0);
+  }, 0);
+
+  const scoreMaximum = questions.length * 3;
+
+  const indiceStupidite =
+    scoreMaximum > 0
+      ? Math.round((scoreTotal / scoreMaximum) * 100)
+      : 0;
+
+  alert(
+    `Questionnaire terminé.\n\n` +
+      `Score observé : ${scoreTotal} / ${scoreMaximum}\n` +
+      `Indice de stupidité : ${indiceStupidite} / 100\n\n` +
+      `Résultat fictif, humoristique et non scientifique.`
+  );
+}
 
   return (
     <main
