@@ -24,18 +24,20 @@ export default function PageQuestionnaire() {
   const [reponsesMelangees, setReponsesMelangees] = useState([]);
   const [reponseValidee, setReponseValidee] = useState(false);
 
-  if (!questions || questions.length === 0) {
-    return <p>Aucune question disponible.</p>;
-  }
-
   const questionActuelle = questions[questionIndex];
-  const derniereQuestion = questionIndex === questions.length - 1;
-
 
   useEffect(() => {
+    if (!questionActuelle) {
+      return;
+    }
+
     const reponses = [...questionActuelle.reponses];
 
-    reponses.sort(() => Math.random() - 0.5);
+    for (let i = reponses.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+
+      [reponses[i], reponses[j]] = [reponses[j], reponses[i]];
+    }
 
     setReponsesMelangees(reponses);
 
@@ -44,25 +46,31 @@ export default function PageQuestionnaire() {
     );
   }, [questionIndex]);
 
-  const reponseChoisie = reponsesChoisies[questionActuelle.id];
+  if (!questions || questions.length === 0) {
+    return <p>Aucune question disponible.</p>;
+  }
+
+  if (!questionActuelle) {
+    return <p>Question introuvable.</p>;
+  }
+
+  const derniereQuestion =
+    questionIndex === questions.length - 1;
+
+  const reponseChoisie =
+    reponsesChoisies[questionActuelle.id];
 
   function choisirReponse(reponseId) {
     if (reponseValidee) {
       return;
     }
 
-    setReponsesChoisies({
-      ...reponsesChoisies,
+    setReponsesChoisies((anciennesReponses) => ({
+      ...anciennesReponses,
       [questionActuelle.id]: reponseId,
-    });
-  }
+    }));
 
-  function validerReponse() {
     setReponseValidee(true);
-
-    if (!derniereQuestion) {
-      setQuestionIndex(questionIndex + 1);
-    }
   }
 
   function modifierReponse() {
@@ -71,40 +79,43 @@ export default function PageQuestionnaire() {
 
   function questionPrecedente() {
     if (questionIndex > 0) {
-      setQuestionIndex(questionIndex - 1);
+      setQuestionIndex((index) => index - 1);
     }
   }
 
   function questionSuivante() {
-    if (!derniereQuestion) {
-      setQuestionIndex(questionIndex + 1);
+    if (!reponseChoisie || derniereQuestion) {
+      return;
     }
+
+    setQuestionIndex((index) => index + 1);
   }
 
-   function terminerQuestionnaire() {
+  function terminerQuestionnaire() {
     const scoreTotal = questions.reduce((total, question) => {
-    const reponseId = reponsesChoisies[question.id];
+      const reponseId = reponsesChoisies[question.id];
 
-    const reponseSelectionnee = question.reponses.find(
-      (reponse) => reponse.id === reponseId
-    );
+      const reponseSelectionnee = question.reponses.find(
+        (reponse) => reponse.id === reponseId
+      );
 
-    return total + (reponseSelectionnee?.score ?? 0);
-  }, 0);
+      return total + (reponseSelectionnee?.score ?? 0);
+    }, 0);
 
     const scoreMaximum = questions.length * 3;
 
-    const indiceStupidite = Math.round(
-    (scoreTotal / scoreMaximum) * 100
-  );
+    const indiceStupidite =
+      scoreMaximum > 0
+        ? Math.round((scoreTotal / scoreMaximum) * 100)
+        : 0;
 
-  alert(
-    `Questionnaire terminé.\n\n` +
-      `Score observé : ${scoreTotal} / ${scoreMaximum}\n` +
-      `Indice de stupidité : ${indiceStupidite} / 100\n\n` +
-      `Résultat fictif, humoristique et non scientifique.`
-  );
-}
+    alert(
+      `Questionnaire terminé.\n\n` +
+        `Score observé : ${scoreTotal} / ${scoreMaximum}\n` +
+        `Indice de stupidité : ${indiceStupidite} / 100\n\n` +
+        `Résultat fictif, humoristique et non scientifique.`
+    );
+  }
 
   return (
     <main
@@ -145,7 +156,8 @@ export default function PageQuestionnaire() {
 
         <div style={{ marginTop: "2rem" }}>
           {reponsesMelangees.map((reponse) => {
-            const estSelectionnee = reponse.id === reponseChoisie;
+            const estSelectionnee =
+              reponse.id === reponseChoisie;
 
             return (
               <button
@@ -165,7 +177,9 @@ export default function PageQuestionnaire() {
                     : "#FFFFFF",
                   color: "#000000",
                   textAlign: "left",
-                  cursor: reponseValidee ? "default" : "pointer",
+                  cursor: reponseValidee
+                    ? "default"
+                    : "pointer",
                   fontSize: "1rem",
                 }}
               >
@@ -183,7 +197,11 @@ export default function PageQuestionnaire() {
             marginTop: "2rem",
           }}
         >
-          <button onClick={() => alert("L’aide sera ajoutée plus tard.")}>
+          <button
+            onClick={() =>
+              alert("L’aide sera ajoutée plus tard.")
+            }
+          >
             Aide
           </button>
 
@@ -195,20 +213,22 @@ export default function PageQuestionnaire() {
           </button>
 
           {!derniereQuestion ? (
-            <button onClick={questionSuivante}>
+            <button
+              onClick={questionSuivante}
+              disabled={!reponseChoisie}
+            >
               Question suivante
             </button>
           ) : (
-            <button onClick={terminerQuestionnaire}>
+            <button
+              onClick={terminerQuestionnaire}
+              disabled={!reponseChoisie}
+            >
               Terminer le questionnaire
             </button>
           )}
 
-          {!reponseValidee ? (
-            <button onClick={validerReponse}>
-              Valider la réponse
-            </button>
-          ) : (
+          {reponseValidee && (
             <button onClick={modifierReponse}>
               Modifier la réponse
             </button>
@@ -218,4 +238,3 @@ export default function PageQuestionnaire() {
     </main>
   );
 }
-
