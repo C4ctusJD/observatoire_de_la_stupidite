@@ -84,9 +84,12 @@ export default function PageQuestionnaire() {
   }
 
   function questionSuivante() {
-    if (!reponseChoisie || derniereQuestion) {
-      return;
-    }
+  if (derniereQuestion) {
+    return;
+  }
+
+  setQuestionIndex((index) => index + 1);
+}
 
     setQuestionIndex((index) => index + 1);
   }
@@ -213,20 +216,14 @@ export default function PageQuestionnaire() {
           </button>
 
           {!derniereQuestion ? (
-            <button
-              onClick={questionSuivante}
-              disabled={!reponseChoisie}
-            >
-              Question suivante
-            </button>
-          ) : (
-            <button
-              onClick={terminerQuestionnaire}
-              disabled={!reponseChoisie}
-            >
-              Terminer le questionnaire
-            </button>
-          )}
+  <button onClick={questionSuivante}>
+    Question suivante
+  </button>
+) : (
+  <button onClick={terminerQuestionnaire}>
+    Terminer le questionnaire
+  </button>
+)}
 
           {reponseValidee && (
             <button onClick={modifierReponse}>
