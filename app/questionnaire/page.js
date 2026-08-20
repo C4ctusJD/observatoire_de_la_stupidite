@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import questionsData from "../../données/questions.json";
+import questionsData from "../../data/questions.json";
 
 export default function PageQuestionnaire() {
   const questions = questionsData.questions;
