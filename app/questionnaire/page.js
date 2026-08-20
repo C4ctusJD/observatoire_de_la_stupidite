@@ -1,185 +1,224 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import questionsData from "../../data/questions.json";
 
-/**
- * Mélange un tableau sans modifier le tableau d'origine.
- * @param {Array} elements
- * @returns {Array}
- */
-function melanger(elements) {
-  const resultat = [...elements];
-
-  for (let i = resultat.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [resultat[i], resultat[j]] = [resultat[j], resultat[i]];
-  }
-
-  return resultat;
-}
-
-/**
- * Normalise le format attendu afin d'éviter les erreurs si une question ou
- * une réponse est incomplète dans le fichier JSON.
- */
-function preparerQuestions(source) {
-  const liste = Array.isArray(source) ? source : source?.questions;
-
-  if (!Array.isArray(liste)) {
-    return [];
-  }
-
-  return melanger(liste).map((question, index) => ({
-    ...question,
-    id: question?.id ?? `question-${index + 1}`,
-    texte: String(question?.texte ?? "Question sans énoncé"),
-    reponses: melanger(
-      Array.isArray(question?.reponses) ? question.reponses : [],
-    ).map((reponse, reponseIndex) => ({
-      ...reponse,
-      id: reponse?.id ?? `reponse-${index + 1}-${reponseIndex + 1}`,
-      texte: String(reponse?.texte ?? "Réponse sans texte"),
-    })),
-  }));
-}
-
 export default function PageQuestionnaire() {
-  const questions = useMemo(() => preparerQuestions(questionsData), []);
+  const questions = useMemo(() => {
+    const questionsMelangees = [...questionsData.questions];
+
+    for (let i = questionsMelangees.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+
+      [questionsMelangees[i], questionsMelangees[j]] = [
+        questionsMelangees[j],
+        questionsMelangees[i],
+      ];
+    }
+
+    return questionsMelangees;
+  }, []);
+
   const [questionIndex, setQuestionIndex] = useState(0);
   const [reponsesChoisies, setReponsesChoisies] = useState({});
-  const [questionnaireTermine, setQuestionnaireTermine] = useState(false);
+  const [reponsesMelangees, setReponsesMelangees] = useState([]);
+  const [reponseValidee, setReponseValidee] = useState(false);
 
   const questionActuelle = questions[questionIndex];
   const derniereQuestion = questionIndex === questions.length - 1;
-  const reponseChoisie = questionActuelle
-    ? reponsesChoisies[questionActuelle.id]
-    : undefined;
 
-  function choisirReponse(reponseId) {
+  useEffect(() => {
     if (!questionActuelle) {
       return;
     }
 
-    setReponsesChoisies((reponsesPrecedentes) => ({
-      ...reponsesPrecedentes,
+    const reponses = [...questionActuelle.reponses];
+
+    reponses.sort(() => Math.random() - 0.5);
+
+    setReponsesMelangees(reponses);
+
+    setReponseValidee(
+      Boolean(reponsesChoisies[questionActuelle.id])
+    );
+  }, [questionIndex, questionActuelle, reponsesChoisies]);
+
+  if (!questions || questions.length === 0) {
+    return <p>Aucune question disponible.</p>;
+  }
+
+  const reponseChoisie = reponsesChoisies[questionActuelle.id];
+
+  function choisirReponse(reponseId) {
+    if (reponseValidee) {
+      return;
+    }
+
+    setReponsesChoisies((reponsesActuelles) => ({
+      ...reponsesActuelles,
       [questionActuelle.id]: reponseId,
     }));
   }
 
-  function allerAQuestion(index) {
-    if (questions.length === 0) {
-      return;
-    }
+  function validerReponse() {
+    setReponseValidee(true);
 
-    const indexSecurise = Math.min(Math.max(index, 0), questions.length - 1);
-    setQuestionIndex(indexSecurise);
+    if (!derniereQuestion) {
+      setQuestionIndex((index) => index + 1);
+    }
+  }
+
+  function modifierReponse() {
+    setReponseValidee(false);
   }
 
   function questionPrecedente() {
-    allerAQuestion(questionIndex - 1);
+    if (questionIndex > 0) {
+      setQuestionIndex((index) => index - 1);
+    }
   }
 
   function questionSuivante() {
-    if (derniereQuestion) {
-      setQuestionnaireTermine(true);
-      return;
+    if (!derniereQuestion) {
+      setQuestionIndex((index) => index + 1);
     }
-
-    allerAQuestion(questionIndex + 1);
   }
 
-  function calculerScore() {
-    return questions.reduce((total, question) => {
+  function terminerQuestionnaire() {
+    const scoreTotal = questions.reduce((total, question) => {
       const reponseId = reponsesChoisies[question.id];
-      const reponse = question.reponses.find(
-        (element) => element.id === reponseId,
+
+      const reponseSelectionnee = question.reponses.find(
+        (reponse) => reponse.id === reponseId
       );
-      const score = Number(reponse?.score);
 
-      // Une question sans réponse, ou avec un score non numérique, vaut 0.
-      return total + (Number.isFinite(score) ? score : 0);
+      return total + (reponseSelectionnee?.score ?? 0);
     }, 0);
-  }
 
-  function recommencer() {
-    setQuestionIndex(0);
-    setReponsesChoisies({});
-    setQuestionnaireTermine(false);
-  }
+    const scoreMaximum = questions.length * 3;
 
-  if (questions.length === 0) {
-    return (
-      <main>
-        <h1>Questionnaire</h1>
-        <p>Aucune question disponible.</p>
-      </main>
-    );
-  }
+    const indiceStupidite =
+      scoreMaximum > 0
+        ? Math.round((scoreTotal / scoreMaximum) * 100)
+        : 0;
 
-  if (questionnaireTermine) {
-    return (
-      <main>
-        <h1>Questionnaire terminé</h1>
-        <p>
-          Votre score est de <strong>{calculerScore()}</strong> point(s).
-        </p>
-        <p>Ce questionnaire est proposé à titre ludique et ne constitue pas une évaluation scientifique.</p>
-        <button type="button" onClick={recommencer}>
-          Recommencer
-        </button>
-      </main>
+    alert(
+      `Questionnaire terminé.\n\n` +
+        `Score observé : ${scoreTotal} / ${scoreMaximum}\n` +
+        `Indice de stupidité : ${indiceStupidite} / 100\n\n` +
+        `Résultat fictif, humoristique et non scientifique.`
     );
   }
 
   return (
-    <main>
-      <header>
-        <p>
+    <main
+      style={{
+        minHeight: "100vh",
+        padding: "2rem",
+        backgroundColor: "#FFFFFF",
+        color: "#000000",
+      }}
+    >
+      <section
+        style={{
+          width: "100%",
+          maxWidth: "700px",
+          margin: "0 auto",
+          padding: "2rem",
+          border: "1px solid #A5A5A5",
+          backgroundColor: "#F5F5F5",
+        }}
+      >
+        <p
+          style={{
+            color: "#3B3B3B",
+            fontSize: "0.85rem",
+            fontWeight: "bold",
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+          }}
+        >
+          Protocole d’observation n° 001
+        </p>
+
+        <p style={{ color: "#3B3B3B" }}>
           Question {questionIndex + 1} sur {questions.length}
         </p>
-        <h1>Questionnaire</h1>
-      </header>
 
-      <section aria-labelledby="question-texte">
-        <h2 id="question-texte">{questionActuelle.texte}</h2>
-        {questionActuelle.categorie ? (
-          <p>Catégorie : {questionActuelle.categorie}</p>
-        ) : null}
+        <h1>{questionActuelle.texte}</h1>
 
-        <fieldset>
-          <legend>Choisissez une réponse (facultatif)</legend>
-          {questionActuelle.reponses.length > 0 ? (
-            questionActuelle.reponses.map((reponse) => (
-              <label key={reponse.id}>
-                <input
-                  type="radio"
-                  name={`question-${questionActuelle.id}`}
-                  value={reponse.id}
-                  checked={reponseChoisie === reponse.id}
-                  onChange={() => choisirReponse(reponse.id)}
-                />
+        <div style={{ marginTop: "2rem" }}>
+          {reponsesMelangees.map((reponse) => {
+            const estSelectionnee = reponse.id === reponseChoisie;
+
+            return (
+              <button
+                key={reponse.id}
+                onClick={() => choisirReponse(reponse.id)}
+                disabled={reponseValidee}
+                style={{
+                  display: "block",
+                  width: "100%",
+                  marginBottom: "1rem",
+                  padding: "1rem",
+                  border: estSelectionnee
+                    ? "3px solid #000000"
+                    : "1px solid #A5A5A5",
+                  backgroundColor: estSelectionnee
+                    ? "#D9D9D9"
+                    : "#FFFFFF",
+                  color: "#000000",
+                  textAlign: "left",
+                  cursor: reponseValidee ? "default" : "pointer",
+                  fontSize: "1rem",
+                }}
+              >
                 {reponse.texte}
-              </label>
-            ))
-          ) : (
-            <p>Cette question ne contient aucune réponse proposée.</p>
-          )}
-        </fieldset>
-      </section>
+              </button>
+            );
+          })}
+        </div>
 
-      <nav aria-label="Navigation du questionnaire">
-        <button
-          type="button"
-          onClick={questionPrecedente}
-          disabled={questionIndex === 0}
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "0.75rem",
+            marginTop: "2rem",
+          }}
         >
-          Précédente
-        </button>
-        <button type="button" onClick={questionSuivante}>
-          {derniereQuestion ? "Voir le résultat" : "Suivante"}
-        </button>
-      </nav>
+          <button onClick={() => alert("L’aide sera ajoutée plus tard.")}>
+            Aide
+          </button>
+
+          <button
+            onClick={questionPrecedente}
+            disabled={questionIndex === 0}
+          >
+            Question précédente
+          </button>
+
+          {!derniereQuestion ? (
+            <button onClick={questionSuivante}>
+              Question suivante
+            </button>
+          ) : (
+            <button onClick={terminerQuestionnaire}>
+              Terminer le questionnaire
+            </button>
+          )}
+
+          {!reponseValidee ? (
+            <button onClick={validerReponse}>
+              Valider la réponse
+            </button>
+          ) : (
+            <button onClick={modifierReponse}>
+              Modifier la réponse
+            </button>
+          )}
+        </div>
+      </section>
     </main>
   );
 }
