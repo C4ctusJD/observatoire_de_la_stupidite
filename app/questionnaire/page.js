@@ -33,6 +33,7 @@ export default function PageQuestionnaire() {
   const tempsQuestions = useRef({});
   const reponsesEnModification = useRef({});
   const nombreClicsRef = useRef(0);
+  const nombreClicsPrecedentsRef = useRef(0);
 
   const questionActuelle = questions[questionIndex];
 
@@ -125,6 +126,8 @@ export default function PageQuestionnaire() {
 
   function questionPrecedente() {
     if (questionIndex > 0) {
+      nombreClicsPrecedentsRef.current += 1;
+
       setQuestionIndex((index) => index - 1);
     }
   }
@@ -178,6 +181,7 @@ export default function PageQuestionnaire() {
       tempsMoyenSecondes,
       nombreReponsesModifiees,
       nombreClics: nombreClicsRef.current + 1,
+      nombreClicsPrecedents: nombreClicsPrecedentsRef.current,
     };
   }
 
@@ -413,6 +417,11 @@ export default function PageQuestionnaire() {
                 <strong>Nombre total de clics :</strong>{" "}
                 {resultat.nombreClics}
               </p>
+
+              <p>
+                <strong>Clics sur « Question précédente » :</strong>{" "}
+                {resultat.nombreClicsPrecedents}
+              </p>
             </div>
 
             <p
@@ -423,7 +432,20 @@ export default function PageQuestionnaire() {
                 lineHeight: 1.5,
               }}
             >
-              Vous avez cliqué {resultat.nombreClics} fois pendant le questionnaire.
+              Vous avez cliqué {resultat.nombreClics} fois pendant
+              le questionnaire.
+            </p>
+
+            <p
+              style={{
+                marginTop: "1.5rem",
+                color: "#3B3B3B",
+                fontStyle: "italic",
+                lineHeight: 1.5,
+              }}
+            >
+              Vous avez utilisé le bouton « Question précédente »{" "}
+              {resultat.nombreClicsPrecedents} fois.
             </p>
 
             <p
