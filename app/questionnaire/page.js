@@ -24,63 +24,19 @@ export default function PageQuestionnaire() {
   const [reponsesChoisies, setReponsesChoisies] = useState({});
   const [reponsesMelangees, setReponsesMelangees] = useState([]);
 
+  const [nombreReponsesModifiees, setNombreReponsesModifiees] =
+    useState(0);
+
   const [resultat, setResultat] = useState(null);
   const [fenetreResultatOuverte, setFenetreResultatOuverte] =
     useState(false);
 
-  /*
-   * Contient l'heure à laquelle chaque question a commencé.
-   *
-   * Exemple :
-   * {
-   *   q01: 1712345678901,
-   *   q02: 1712345684120
-   * }
-   */
   const tempsDebutQuestions = useRef({});
-
-  /*
-   * Contient le temps enregistré pour chaque question,
-   * en millisecondes.
-   *
-   * Exemple :
-   * {
-   *   q01: 5234,
-   *   q02: 8120
-   * }
-   */
   const tempsQuestions = useRef({});
+  const reponsesEnModification = useRef({});
 
   const questionActuelle = questions[questionIndex];
 
-  /*
-   * Démarre le chronomètre uniquement si aucun temps
-   * n'a encore été enregistré ou démarré pour cette question.
-   *
-   * Ainsi, revenir sur une question ou la corriger
-   * ne relance pas le chronomètre.
-   */
-  useEffect(() => {
-    if (!questionActuelle) {
-      return;
-    }
-
-    const questionId = questionActuelle.id;
-
-    const tempsDejaEnregistre =
-      tempsQuestions.current[questionId] !== undefined;
-
-    const chronometreDejaDemarre =
-      tempsDebutQuestions.current[questionId] !== undefined;
-
-    if (!tempsDejaEnregistre && !chronometreDejaDemarre) {
-      tempsDebutQuestions.current[questionId] = Date.now();
-    }
-  }, [questionActuelle]);
-
-  /*
-   * Mélange les réponses lorsque la question affichée change.
-   */
   useEffect(() => {
     if (!questionActuelle) {
       return;
@@ -91,6 +47,17 @@ export default function PageQuestionnaire() {
     reponses.sort(() => Math.random() - 0.5);
 
     setReponsesMelangees(reponses);
+
+    /*
+     * Le chronomètre démarre uniquement si cette question
+     * n'a jamais été affichée auparavant.
+     */
+    if (
+      !tempsDebutQuestions.current[questionActuelle.id] &&
+      !tempsQuestions.current[questionActuelle.id]
+    ) {
+      tempsDebutQuestions.current[questionActuelle.id] = Date.now();
+    }
   }, [questionIndex, questionActuelle]);
 
   if (!questions || questions.length === 0) {
@@ -100,57 +67,62 @@ export default function PageQuestionnaire() {
   const derniereQuestion = questionIndex === questions.length - 1;
   const reponseChoisie = reponsesChoisies[questionActuelle.id];
 
-  /*
-   * Enregistre définitivement le temps passé sur la question actuelle.
-   *
-   * Si le temps a déjà été enregistré, la fonction ne fait rien.
-   * Cela empêche les doublons lorsqu'une réponse est sélectionnée
-   * puis que l'utilisateur passe ensuite à la question suivante.
-   */
   function enregistrerTempsQuestion() {
     const questionId = questionActuelle.id;
 
-    const tempsDejaEnregistre =
-      tempsQuestions.current[questionId] !== undefined;
-
-    if (tempsDejaEnregistre) {
+    if (
+      tempsQuestions.current[questionId] ||
+      !tempsDebutQuestions.current[questionId]
+    ) {
       return;
     }
 
-    const tempsDebut = tempsDebutQuestions.current[questionId];
-
-    if (tempsDebut === undefined) {
-      return;
-    }
-
-    const tempsEcoule = Date.now() - tempsDebut;
-
-    tempsQuestions.current[questionId] = tempsEcoule;
+    tempsQuestions.current[questionId] =
+      Date.now() - tempsDebutQuestions.current[questionId];
   }
 
   function choisirReponse(reponseId) {
+    const questionId = questionActuelle.id;
+    const ancienneReponse = reponsesChoisies[questionId];
+    const reponseInitiale =
+      reponsesEnModification.current[questionId];
+
     /*
-     * La sélection d'une réponse arrête définitivement
-     * le chronomètre de la question actuelle.
+     * Une modification est comptée uniquement lorsqu'une réponse
+     * différente est effectivement sélectionnée.
      */
-    enregistrerTempsQuestion();
+    if (
+      (reponseInitiale && reponseInitiale !== reponseId) ||
+      (!reponseInitiale &&
+        ancienneReponse &&
+        ancienneReponse !== reponseId)
+    ) {
+      setNombreReponsesModifiees((nombre) => nombre + 1);
+    }
+
+    delete reponsesEnModification.current[questionId];
 
     setReponsesChoisies((reponsesActuelles) => ({
       ...reponsesActuelles,
-      [questionActuelle.id]: reponseId,
+      [questionId]: reponseId,
     }));
+
+    enregistrerTempsQuestion();
   }
 
   function modifierReponse() {
-    /*
-     * Le temps n'est volontairement pas supprimé.
-     * La correction de la réponse ne relance donc pas
-     * le chronomètre.
-     */
+    const questionId = questionActuelle.id;
+    const reponseActuelle = reponsesChoisies[questionId];
+
+    if (reponseActuelle) {
+      reponsesEnModification.current[questionId] =
+        reponseActuelle;
+    }
+
     setReponsesChoisies((reponsesActuelles) => {
       const nouvellesReponses = { ...reponsesActuelles };
 
-      delete nouvellesReponses[questionActuelle.id];
+      delete nouvellesReponses[questionId];
 
       return nouvellesReponses;
     });
@@ -163,11 +135,6 @@ export default function PageQuestionnaire() {
   }
 
   function questionSuivante() {
-    /*
-     * Le passage est autorisé même sans réponse.
-     * Dans ce cas, le temps passé sur la question est
-     * tout de même enregistré.
-     */
     enregistrerTempsQuestion();
 
     if (!derniereQuestion) {
@@ -193,7 +160,9 @@ export default function PageQuestionnaire() {
         ? Math.round((scoreTotal / scoreMaximum) * 100)
         : 0;
 
-    const tempsEnregistres = Object.values(tempsQuestions.current);
+    const tempsEnregistres = Object.values(
+      tempsQuestions.current
+    );
 
     const tempsTotal =
       tempsEnregistres.length > 0
@@ -203,10 +172,6 @@ export default function PageQuestionnaire() {
           )
         : 0;
 
-    /*
-     * Le temps moyen est calculé en secondes,
-     * avec un arrondi au dixième.
-     */
     const tempsMoyenSecondes =
       tempsEnregistres.length > 0
         ? Math.round(
@@ -219,24 +184,46 @@ export default function PageQuestionnaire() {
       scoreMaximum,
       indiceStupidite,
       tempsMoyenSecondes,
+      nombreReponsesModifiees,
     };
   }
 
   function terminerQuestionnaire() {
-    /*
-     * Le temps de la dernière question est enregistré
-     * au moment où l'utilisateur termine le questionnaire.
-     */
     enregistrerTempsQuestion();
 
-    /*
-     * Comme l'enregistrement ci-dessus modifie une ref,
-     * le calcul qui suit utilise directement les données
-     * mises à jour.
-     */
+    const tempsQuestionActuelle =
+      tempsQuestions.current[questionActuelle.id];
+
+    const tempsQuestionsComplets = {
+      ...tempsQuestions.current,
+      [questionActuelle.id]:
+        tempsQuestionActuelle ??
+        Date.now() - tempsDebutQuestions.current[questionActuelle.id],
+    };
+
+    tempsQuestions.current = tempsQuestionsComplets;
+
     const nouveauResultat = calculerResultat();
 
-    setResultat(nouveauResultat);
+    const tempsEnregistres = Object.values(tempsQuestionsComplets);
+
+    const tempsTotal = tempsEnregistres.reduce(
+      (total, temps) => total + temps,
+      0
+    );
+
+    const tempsMoyenSecondes =
+      tempsEnregistres.length > 0
+        ? Math.round(
+            (tempsTotal / tempsEnregistres.length / 1000) * 10
+          ) / 10
+        : 0;
+
+    setResultat({
+      ...nouveauResultat,
+      tempsMoyenSecondes,
+    });
+
     setFenetreResultatOuverte(true);
   }
 
@@ -283,7 +270,8 @@ export default function PageQuestionnaire() {
 
         <div style={{ marginTop: "2rem" }}>
           {reponsesMelangees.map((reponse) => {
-            const estSelectionnee = reponse.id === reponseChoisie;
+            const estSelectionnee =
+              reponse.id === reponseChoisie;
 
             return (
               <button
@@ -320,7 +308,11 @@ export default function PageQuestionnaire() {
             marginTop: "2rem",
           }}
         >
-          <button onClick={() => alert("L’aide sera ajoutée plus tard.")}>
+          <button
+            onClick={() =>
+              alert("L’aide sera ajoutée plus tard.")
+            }
+          >
             Aide
           </button>
 
@@ -422,7 +414,15 @@ export default function PageQuestionnaire() {
               <p>
                 <strong>Temps moyen de réponse :</strong>{" "}
                 {resultat.tempsMoyenSecondes} seconde
-                {resultat.tempsMoyenSecondes !== 1 ? "s" : ""} par question
+                {resultat.tempsMoyenSecondes !== 1
+                  ? "s"
+                  : ""}{" "}
+                par question
+              </p>
+
+              <p>
+                <strong>Réponses modifiées :</strong>{" "}
+                {resultat.nombreReponsesModifiees}
               </p>
             </div>
 
@@ -435,9 +435,9 @@ export default function PageQuestionnaire() {
               }}
             >
               Cette observation est fictive, humoristique et non
-              scientifique. Le temps indiqué décrit uniquement le
-              déroulement de cette session et ne constitue pas une
-              caractéristique de votre personnalité.
+              scientifique. Les résultats décrivent uniquement cette
+              session et ne constituent pas une caractéristique de
+              votre personnalité.
             </p>
 
             <div
