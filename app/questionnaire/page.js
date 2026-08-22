@@ -166,6 +166,16 @@ export default function PageQuestionnaire() {
         ? Math.round((scoreTotal / scoreMaximum) * 100)
         : 0;
 
+    const nombreQuestionsRepondues =
+      Object.keys(reponsesChoisies).length;
+
+    const tauxCompletude =
+      questions.length > 0
+        ? Math.round(
+            (nombreQuestionsRepondues / questions.length) * 100
+          )
+        : 0;
+
     const tempsEnregistres = Object.values(
       tempsQuestions.current
     );
@@ -186,6 +196,7 @@ export default function PageQuestionnaire() {
       scoreTotal,
       scoreMaximum,
       indiceStupidite,
+      tauxCompletude,
       tempsMoyenSecondes,
       nombreReponsesModifiees,
       nombreClics: nombreClicsRef.current + 1,
@@ -316,9 +327,7 @@ export default function PageQuestionnaire() {
             marginTop: "2rem",
           }}
         >
-          <button
-            onClick={enregistrerClicAide}
-          >
+          <button onClick={enregistrerClicAide}>
             Aide
           </button>
 
@@ -401,6 +410,11 @@ export default function PageQuestionnaire() {
               }}
             >
               <p>
+                <strong>Taux de complétude :</strong>{" "}
+                {resultat.tauxCompletude} %
+              </p>
+
+              <p>
                 <strong>Score observé :</strong>{" "}
                 {resultat.scoreTotal} / {resultat.scoreMaximum}
               </p>
@@ -445,46 +459,9 @@ export default function PageQuestionnaire() {
                 lineHeight: 1.5,
               }}
             >
-              Vous avez cliqué {resultat.nombreClics} fois pendant
-              le questionnaire.
-            </p>
-
-            <p
-              style={{
-                marginTop: "1.5rem",
-                color: "#3B3B3B",
-                fontStyle: "italic",
-                lineHeight: 1.5,
-              }}
-            >
-              Vous avez utilisé le bouton « Question précédente »{" "}
-              {resultat.nombreClicsPrecedents} fois.
-            </p>
-
-            <p
-              style={{
-                marginTop: "1.5rem",
-                color: "#3B3B3B",
-                fontStyle: "italic",
-                lineHeight: 1.5,
-              }}
-            >
-              Vous avez utilisé le bouton « Aide »{" "}
-              {resultat.nombreClicsAide} fois.
-            </p>
-
-            <p
-              style={{
-                marginTop: "1.5rem",
-                color: "#3B3B3B",
-                fontStyle: "italic",
-                lineHeight: 1.5,
-              }}
-            >
               Cette observation est fictive, humoristique et non
               scientifique. Les résultats décrivent uniquement cette
-              session et ne constituent pas une caractéristique de
-              votre personnalité.
+              session.
             </p>
 
             <div
