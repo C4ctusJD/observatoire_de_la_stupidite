@@ -23,10 +23,8 @@ export default function PageQuestionnaire() {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [reponsesChoisies, setReponsesChoisies] = useState({});
   const [reponsesMelangees, setReponsesMelangees] = useState([]);
-
   const [nombreReponsesModifiees, setNombreReponsesModifiees] =
     useState(0);
-
   const [resultat, setResultat] = useState(null);
   const [fenetreResultatOuverte, setFenetreResultatOuverte] =
     useState(false);
@@ -34,6 +32,7 @@ export default function PageQuestionnaire() {
   const tempsDebutQuestions = useRef({});
   const tempsQuestions = useRef({});
   const reponsesEnModification = useRef({});
+  const nombreClicsRef = useRef(0);
 
   const questionActuelle = questions[questionIndex];
 
@@ -48,10 +47,6 @@ export default function PageQuestionnaire() {
 
     setReponsesMelangees(reponses);
 
-    /*
-     * Le chronomètre démarre uniquement si cette question
-     * n'a jamais été affichée auparavant.
-     */
     if (
       !tempsDebutQuestions.current[questionActuelle.id] &&
       !tempsQuestions.current[questionActuelle.id]
@@ -66,6 +61,10 @@ export default function PageQuestionnaire() {
 
   const derniereQuestion = questionIndex === questions.length - 1;
   const reponseChoisie = reponsesChoisies[questionActuelle.id];
+
+  function enregistrerClic() {
+    nombreClicsRef.current += 1;
+  }
 
   function enregistrerTempsQuestion() {
     const questionId = questionActuelle.id;
@@ -87,10 +86,6 @@ export default function PageQuestionnaire() {
     const reponseInitiale =
       reponsesEnModification.current[questionId];
 
-    /*
-     * Une modification est comptée uniquement lorsqu'une réponse
-     * différente est effectivement sélectionnée.
-     */
     if (
       (reponseInitiale && reponseInitiale !== reponseId) ||
       (!reponseInitiale &&
@@ -164,13 +159,10 @@ export default function PageQuestionnaire() {
       tempsQuestions.current
     );
 
-    const tempsTotal =
-      tempsEnregistres.length > 0
-        ? tempsEnregistres.reduce(
-            (total, temps) => total + temps,
-            0
-          )
-        : 0;
+    const tempsTotal = tempsEnregistres.reduce(
+      (total, temps) => total + temps,
+      0
+    );
 
     const tempsMoyenSecondes =
       tempsEnregistres.length > 0
@@ -185,6 +177,7 @@ export default function PageQuestionnaire() {
       indiceStupidite,
       tempsMoyenSecondes,
       nombreReponsesModifiees,
+      nombreClics: nombreClicsRef.current + 1,
     };
   }
 
@@ -233,6 +226,7 @@ export default function PageQuestionnaire() {
 
   return (
     <main
+      onClick={enregistrerClic}
       style={{
         minHeight: "100vh",
         padding: "2rem",
@@ -368,7 +362,6 @@ export default function PageQuestionnaire() {
               border: "2px solid #000000",
               backgroundColor: "#FFFFFF",
               color: "#000000",
-              boxShadow: "0 8px 30px rgba(0, 0, 0, 0.3)",
             }}
           >
             <p
@@ -384,13 +377,7 @@ export default function PageQuestionnaire() {
               Rapport d’observation
             </p>
 
-            <h2
-              id="titre-resultat"
-              style={{
-                marginTop: "0.75rem",
-                marginBottom: "1.5rem",
-              }}
-            >
+            <h2 id="titre-resultat">
               Questionnaire terminé
             </h2>
 
@@ -414,17 +401,30 @@ export default function PageQuestionnaire() {
               <p>
                 <strong>Temps moyen de réponse :</strong>{" "}
                 {resultat.tempsMoyenSecondes} seconde
-                {resultat.tempsMoyenSecondes !== 1
-                  ? "s"
-                  : ""}{" "}
-                par question
+                {resultat.tempsMoyenSecondes !== 1 ? "s" : ""} par question
               </p>
 
               <p>
                 <strong>Réponses modifiées :</strong>{" "}
                 {resultat.nombreReponsesModifiees}
               </p>
+
+              <p>
+                <strong>Nombre total de clics :</strong>{" "}
+                {resultat.nombreClics}
+              </p>
             </div>
+
+            <p
+              style={{
+                marginTop: "1.5rem",
+                color: "#3B3B3B",
+                fontStyle: "italic",
+                lineHeight: 1.5,
+              }}
+            >
+              Vous avez cliqué {resultat.nombreClics} fois pendant le questionnaire.
+            </p>
 
             <p
               style={{
