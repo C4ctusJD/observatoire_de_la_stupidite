@@ -34,6 +34,7 @@ export default function PageQuestionnaire() {
   const reponsesEnModification = useRef({});
   const nombreClicsRef = useRef(0);
   const nombreClicsPrecedentsRef = useRef(0);
+  const nombreClicsAideRef = useRef(0);
 
   const questionActuelle = questions[questionIndex];
 
@@ -44,7 +45,11 @@ export default function PageQuestionnaire() {
 
     const reponses = [...questionActuelle.reponses];
 
-    reponses.sort(() => Math.random() - 0.5);
+    for (let i = reponses.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+
+      [reponses[i], reponses[j]] = [reponses[j], reponses[i]];
+    }
 
     setReponsesMelangees(reponses);
 
@@ -65,6 +70,10 @@ export default function PageQuestionnaire() {
 
   function enregistrerClic() {
     nombreClicsRef.current += 1;
+  }
+
+  function enregistrerClicAide() {
+    nombreClicsAideRef.current += 1;
   }
 
   function enregistrerTempsQuestion() {
@@ -127,7 +136,6 @@ export default function PageQuestionnaire() {
   function questionPrecedente() {
     if (questionIndex > 0) {
       nombreClicsPrecedentsRef.current += 1;
-
       setQuestionIndex((index) => index - 1);
     }
   }
@@ -182,6 +190,7 @@ export default function PageQuestionnaire() {
       nombreReponsesModifiees,
       nombreClics: nombreClicsRef.current + 1,
       nombreClicsPrecedents: nombreClicsPrecedentsRef.current,
+      nombreClicsAide: nombreClicsAideRef.current,
     };
   }
 
@@ -195,7 +204,8 @@ export default function PageQuestionnaire() {
       ...tempsQuestions.current,
       [questionActuelle.id]:
         tempsQuestionActuelle ??
-        Date.now() - tempsDebutQuestions.current[questionActuelle.id],
+        Date.now() -
+          tempsDebutQuestions.current[questionActuelle.id],
     };
 
     tempsQuestions.current = tempsQuestionsComplets;
@@ -307,9 +317,7 @@ export default function PageQuestionnaire() {
           }}
         >
           <button
-            onClick={() =>
-              alert("L’aide sera ajoutée plus tard.")
-            }
+            onClick={enregistrerClicAide}
           >
             Aide
           </button>
@@ -422,6 +430,11 @@ export default function PageQuestionnaire() {
                 <strong>Clics sur « Question précédente » :</strong>{" "}
                 {resultat.nombreClicsPrecedents}
               </p>
+
+              <p>
+                <strong>Clics sur « Aide » :</strong>{" "}
+                {resultat.nombreClicsAide}
+              </p>
             </div>
 
             <p
@@ -446,6 +459,18 @@ export default function PageQuestionnaire() {
             >
               Vous avez utilisé le bouton « Question précédente »{" "}
               {resultat.nombreClicsPrecedents} fois.
+            </p>
+
+            <p
+              style={{
+                marginTop: "1.5rem",
+                color: "#3B3B3B",
+                fontStyle: "italic",
+                lineHeight: 1.5,
+              }}
+            >
+              Vous avez utilisé le bouton « Aide »{" "}
+              {resultat.nombreClicsAide} fois.
             </p>
 
             <p
