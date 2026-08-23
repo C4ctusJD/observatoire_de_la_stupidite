@@ -4,9 +4,79 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import animauxData from "../../data/animaux.json";
+import qualificatifsData from "../../data/qualificatifs.json";
+
+function trouverAnimal(indiceStupidite) {
+  return animauxData.animaux.find(
+    (animal) =>
+      indiceStupidite >= animal.score_min &&
+      indiceStupidite <= animal.score_max
+  );
+}
+
+function trouverQualificatif(mesure, valeur) {
+  const mesureData = qualificatifsData.mesures.find(
+    (element) => element.mesure === mesure
+  );
+
+  if (!mesureData) {
+    return null;
+  }
+
+  const qualificatifBas = mesureData.qualificatifs.find(
+    (qualificatif) => qualificatif.id.endsWith("-bas")
+  );
+
+  const qualificatifMoyen = mesureData.qualificatifs.find(
+    (qualificatif) => qualificatif.id.endsWith("-moyen")
+  );
+
+  const qualificatifHaut = mesureData.qualificatifs.find(
+    (qualificatif) => qualificatif.id.endsWith("-haut")
+  );
+
+  if (mesure === "temps_avant_reponse") {
+    if (valeur <= 3) return qualificatifBas;
+    if (valeur <= 8) return qualificatifMoyen;
+    return qualificatifHaut;
+  }
+
+  if (mesure === "changements_reponse") {
+    if (valeur <= 1) return qualificatifBas;
+    if (valeur <= 3) return qualificatifMoyen;
+    return qualificatifHaut;
+  }
+
+  if (mesure === "retours_arriere") {
+    if (valeur <= 1) return qualificatifBas;
+    if (valeur <= 3) return qualificatifMoyen;
+    return qualificatifHaut;
+  }
+
+  if (mesure === "clics_secondaires") {
+    if (valeur <= 5) return qualificatifBas;
+    if (valeur <= 15) return qualificatifMoyen;
+    return qualificatifHaut;
+  }
+
+  if (mesure === "utilisation_aide") {
+    if (valeur <= 1) return qualificatifBas;
+    if (valeur <= 3) return qualificatifMoyen;
+    return qualificatifHaut;
+  }
+
+  if (mesure === "completude") {
+    if (valeur <= 59) return qualificatifBas;
+    if (valeur <= 89) return qualificatifMoyen;
+    return qualificatifHaut;
+  }
+
+  return null;
+}
 
 export default function PageResultats() {
   const [resultat, setResultat] = useState(null);
+  const [qualificatif, setQualificatif] = useState(null);
   const [chargement, setChargement] = useState(true);
 
   useEffect(() => {
@@ -17,7 +87,50 @@ export default function PageResultats() {
     if (resultatEnregistre) {
       try {
         const resultatParse = JSON.parse(resultatEnregistre);
+
         setResultat(resultatParse);
+
+        const mesuresDisponibles = [
+          {
+            mesure: "completude",
+            valeur: resultatParse.tauxCompletude ?? 0,
+          },
+          {
+            mesure: "temps_avant_reponse",
+            valeur: resultatParse.tempsMoyenSecondes ?? 0,
+          },
+          {
+            mesure: "changements_reponse",
+            valeur: resultatParse.nombreReponsesModifiees ?? 0,
+          },
+          {
+            mesure: "clics_secondaires",
+            valeur: Math.max(
+              0,
+              (resultatParse.nombreClics ?? 0) - 60
+            ),
+          },
+          {
+            mesure: "retours_arriere",
+            valeur: resultatParse.nombreClicsPrecedents ?? 0,
+          },
+          {
+            mesure: "utilisation_aide",
+            valeur: resultatParse.nombreClicsAide ?? 0,
+          },
+        ];
+
+        const mesureTiree =
+          mesuresDisponibles[
+            Math.floor(Math.random() * mesuresDisponibles.length)
+          ];
+
+        const qualificatifTrouve = trouverQualificatif(
+          mesureTiree.mesure,
+          mesureTiree.valeur
+        );
+
+        setQualificatif(qualificatifTrouve);
       } catch (erreur) {
         console.error(
           "Impossible de lire le résultat enregistré.",
@@ -80,11 +193,7 @@ export default function PageResultats() {
     );
   }
 
-  const animalObserve = animauxData.animaux.find(
-    (animal) =>
-      resultat.indiceStupidite >= animal.score_min &&
-      resultat.indiceStupidite <= animal.score_max
-  );
+  const animal = trouverAnimal(resultat.indiceStupidite);
 
   return (
     <main style={styles.page}>
@@ -104,38 +213,39 @@ export default function PageResultats() {
           scientifique.
         </p>
 
-        <div style={styles.carteAnimal}>
-          <p style={styles.label}>
-            Classification animalière provisoire
-          </p>
+        {animal && qualificatif && (
+          <section style={styles.carteAnimal}>
+            <p style={styles.label}>Classification provisoire</p>
 
-          {animalObserve ? (
-            <>
-              <h2 style={styles.titreAnimal}>
-                Vous êtes un {animalObserve.nom}
-              </h2>
+            <h2 style={styles.titreAnimal}>
+              Vous êtes un {animal.nom} {qualificatif.nom}
+            </h2>
 
-              <p style={styles.descriptionAnimal}>
-                {animalObserve.description}
-              </p>
-            </>
-          ) : (
-            <p style={styles.texte}>
-              Aucun animal correspondant n’a pu être identifié dans
-              les archives de l’Observatoire.
+            <p style={styles.descriptionAnimal}>
+              {animal.description}
             </p>
-          )}
-        </div>
+
+            <p style={styles.descriptionQualificatif}>
+              <strong>Observation complémentaire :</strong>{" "}
+              {qualificatif.description}
+            </p>
+          </section>
+        )}
 
         <div style={styles.blocResultat}>
           <p>
-            <strong>Taux de complétude :</strong>{" "}
-            {resultat.tauxCompletude} %
+            <strong>Score observé :</strong>{" "}
+            {resultat.scoreTotal} / {resultat.scoreMaximum}
           </p>
 
           <p>
             <strong>Indice de stupidité :</strong>{" "}
             {resultat.indiceStupidite} / 100
+          </p>
+
+          <p>
+            <strong>Taux de complétude :</strong>{" "}
+            {resultat.tauxCompletude} %
           </p>
 
           <p>
@@ -262,6 +372,15 @@ const styles = {
 
   descriptionAnimal: {
     margin: 0,
+    color: "#3B3B3B",
+    lineHeight: 1.6,
+  },
+
+  descriptionQualificatif: {
+    marginTop: "1rem",
+    marginBottom: 0,
+    paddingTop: "1rem",
+    borderTop: "1px solid #A5A5A5",
     color: "#3B3B3B",
     lineHeight: 1.6,
   },
