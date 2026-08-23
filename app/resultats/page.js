@@ -6,9 +6,6 @@ import { useEffect, useState } from "react";
 import animauxData from "../../data/animaux.json";
 import qualificatifsData from "../../data/qualificatifs.json";
 
-const CLE_RESULTAT = "observatoire-resultat";
-const CLE_QUALIFICATIF = "observatoire-qualificatif";
-
 function trouverAnimal(indiceStupidite) {
   return animauxData.animaux.find(
     (animal) =>
@@ -77,59 +74,382 @@ function trouverQualificatif(mesure, valeur) {
   return null;
 }
 
-function creerSignatureResultat(resultat) {
-  return JSON.stringify({
-    scoreTotal: resultat.scoreTotal,
-    scoreMaximum: resultat.scoreMaximum,
-    indiceStupidite: resultat.indiceStupidite,
-    tauxCompletude: resultat.tauxCompletude,
-    tempsMoyenSecondes: resultat.tempsMoyenSecondes,
-    nombreReponsesModifiees: resultat.nombreReponsesModifiees,
-    nombreClics: resultat.nombreClics,
-    nombreClicsPrecedents: resultat.nombreClicsPrecedents,
-    nombreClicsAide: resultat.nombreClicsAide,
-  });
-}
+export default function PageResultats() {
+  const [resultat, setResultat] = useState(null);
+  const [qualificatif, setQualificatif] = useState(null);
+  const [chargement, setChargement] = useState(true);
 
-function obtenirQualificatif(resultat) {
-  const signatureResultat = creerSignatureResultat(resultat);
-  const qualificatifEnregistre = sessionStorage.getItem(
-    CLE_QUALIFICATIF
-  );
+  useEffect(() => {
+    const resultatEnregistre = sessionStorage.getItem(
+      "observatoire-resultat"
+    );
 
-  if (qualificatifEnregistre) {
-    try {
-      const donneesEnregistrees = JSON.parse(
-        qualificatifEnregistre
-      );
+    if (resultatEnregistre) {
+      try {
+        const resultatParse = JSON.parse(resultatEnregistre);
 
-      if (
-        donneesEnregistrees.signature === signatureResultat &&
-        donneesEnregistrees.qualificatif
-      ) {
-        return donneesEnregistrees.qualificatif;
+        setResultat(resultatParse);
+
+        const mesuresDisponibles = [
+          {
+            mesure: "completude",
+            valeur: resultatParse.tauxCompletude ?? 0,
+          },
+          {
+            mesure: "temps_avant_reponse",
+            valeur: resultatParse.tempsMoyenSecondes ?? 0,
+          },
+          {
+            mesure: "changements_reponse",
+            valeur: resultatParse.nombreReponsesModifiees ?? 0,
+          },
+          {
+            mesure: "clics_secondaires",
+            valeur: Math.max(
+              0,
+              (resultatParse.nombreClics ?? 0) - 60
+            ),
+          },
+          {
+            mesure: "retours_arriere",
+            valeur: resultatParse.nombreClicsPrecedents ?? 0,
+          },
+          {
+            mesure: "utilisation_aide",
+            valeur: resultatParse.nombreClicsAide ?? 0,
+          },
+        ];
+
+        const mesureTiree =
+          mesuresDisponibles[
+            Math.floor(Math.random() * mesuresDisponibles.length)
+          ];
+
+        const qualificatifTrouve = trouverQualificatif(
+          mesureTiree.mesure,
+          mesureTiree.valeur
+        );
+
+        setQualificatif(qualificatifTrouve);
+      } catch (erreur) {
+        console.error(
+          "Impossible de lire le résultat enregistré.",
+          erreur
+        );
       }
-    } catch (erreur) {
-      console.error(
-        "Impossible de lire le qualificatif enregistré.",
-        erreur
-      );
     }
+
+    setChargement(false);
+  }, []);
+
+  if (chargement) {
+    return (
+      <main style={styles.page}>
+        <section style={styles.carte}>
+          <p style={styles.label}>Rapport d’observation</p>
+
+          <p style={styles.texte}>
+            Lecture des données pseudo-scientifiques en cours…
+          </p>
+        </section>
+      </main>
+    );
   }
 
-  const mesuresDisponibles = [
-    {
-      mesure: "completude",
-      valeur: resultat.tauxCompletude ?? 0,
-    },
-    {
-      mesure: "temps_avant_reponse",
-      valeur: resultat.tempsMoyenSecondes ?? 0,
-    },
-    {
-      mesure: "changements_reponse",
-      valeur: resultat.nombreReponsesModifiees ?? 0,
-    },
-    {
-      mesure: "clics_secondaires",
-      valeur: Math.max(0, (resultat.nombreClics ??
+  if (!resultat) {
+    return (
+      <main style={styles.page}>
+        <section style={styles.carte}>
+          <p style={styles.label}>Rapport indisponible</p>
+
+          <h1 style={styles.titre}>
+            Aucun résultat disponible
+          </h1>
+
+          <p style={styles.texte}>
+            Aucun questionnaire terminé n’a été trouvé dans cette
+            session d’observation.
+          </p>
+
+          <p style={styles.avertissement}>
+            L’Observatoire décline toute responsabilité en cas
+            d’absence de stupidité mesurable.
+          </p>
+
+          <div style={styles.actions}>
+            <Link href="/" style={styles.boutonSecondaire}>
+              Retour à l’accueil
+            </Link>
+
+            <Link
+              href="/questionnaire"
+              style={styles.boutonPrincipal}
+            >
+              Commencer le questionnaire
+            </Link>
+          </div>
+        </section>
+      </main>
+    );
+  }
+
+  const animal = trouverAnimal(resultat.indiceStupidite);
+
+  return (
+    <main style={styles.page}>
+      <section style={styles.carte}>
+        <p style={styles.label}>
+          Rapport officiel d’observation n° 001
+        </p>
+
+        <h1 style={styles.titre}>
+          Questionnaire terminé
+        </h1>
+
+        <p style={styles.introduction}>
+          Les services de l’Observatoire ont terminé l’analyse de
+          cette session. Les résultats ci-dessous sont fictifs,
+          humoristiques et ne constituent pas une évaluation
+          scientifique.
+        </p>
+
+        {animal && qualificatif && (
+          <section style={styles.carteAnimal}>
+            <p style={styles.label}>Classification provisoire</p>
+
+            <h2 style={styles.titreAnimal}>
+              Vous êtes un(e) {animal.nom} {qualificatif.nom}
+            </h2>
+
+            <p style={styles.descriptionAnimal}>
+              {animal.description}
+            </p>
+
+            <p style={styles.descriptionQualificatif}>
+              <strong>Observation complémentaire :</strong>{" "}
+              {qualificatif.description}
+            </p>
+          </section>
+        )}
+
+        <div style={styles.blocResultat}>
+          <p>
+            <strong>Score observé :</strong>{" "}
+            {resultat.scoreTotal} / {resultat.scoreMaximum}
+          </p>
+
+          <p>
+            <strong>Indice de stupidité :</strong>{" "}
+            {resultat.indiceStupidite} / 100
+          </p>
+
+          <p>
+            <strong>Taux de complétude :</strong>{" "}
+            {resultat.tauxCompletude} %
+          </p>
+
+          <p>
+            <strong>Temps moyen de réponse :</strong>{" "}
+            {resultat.tempsMoyenSecondes} seconde
+            {resultat.tempsMoyenSecondes !== 1 ? "s" : ""} par
+            question
+          </p>
+
+          <p>
+            <strong>Réponses modifiées :</strong>{" "}
+            {resultat.nombreReponsesModifiees}
+          </p>
+
+          <p>
+            <strong>Nombre total de clics :</strong>{" "}
+            {resultat.nombreClics}
+          </p>
+
+          <p>
+            <strong>Clics sur « Question précédente » :</strong>{" "}
+            {resultat.nombreClicsPrecedents}
+          </p>
+
+          <p>
+            <strong>Clics sur « Aide » :</strong>{" "}
+            {resultat.nombreClicsAide}
+          </p>
+        </div>
+
+        <div style={styles.encadreObservation}>
+          <p style={styles.sousTitre}>
+            Observation complémentaire
+          </p>
+
+          <p style={styles.texte}>
+            Cette fiche décrit uniquement les actions réalisées
+            pendant cette session. Elle ne définit pas votre
+            personnalité et ne permet de tirer aucune conclusion
+            générale sur vous.
+          </p>
+
+          <p style={styles.phraseHumoristique}>
+            Conclusion provisoire : l’échantillon humain observé
+            semble avoir coopéré avec le protocole.
+          </p>
+        </div>
+
+        <p style={styles.avertissement}>
+          Cette observation est fictive, humoristique et non
+          scientifique. Les résultats décrivent uniquement cette
+          session et ne constituent ni un diagnostic, ni un test de
+          quotient intellectuel, ni une mesure de votre valeur.
+        </p>
+
+        <div style={styles.actions}>
+          <Link href="/" style={styles.boutonSecondaire}>
+            Retour à l’accueil
+          </Link>
+
+          <Link
+            href="/questionnaire"
+            style={styles.boutonPrincipal}
+          >
+            Recommencer
+          </Link>
+        </div>
+      </section>
+    </main>
+  );
+}
+
+const styles = {
+  page: {
+    minHeight: "100vh",
+    padding: "2rem 1rem",
+    backgroundColor: "#F5F5F5",
+    color: "#000000",
+  },
+
+  carte: {
+    width: "100%",
+    maxWidth: "720px",
+    margin: "0 auto",
+    padding: "2rem",
+    backgroundColor: "#FFFFFF",
+    border: "2px solid #000000",
+  },
+
+  label: {
+    margin: 0,
+    color: "#3B3B3B",
+    fontSize: "0.8rem",
+    fontWeight: "bold",
+    letterSpacing: "0.08em",
+    textTransform: "uppercase",
+  },
+
+  titre: {
+    marginTop: "0.75rem",
+    marginBottom: "1rem",
+    fontSize: "clamp(1.8rem, 5vw, 2.6rem)",
+    lineHeight: 1.15,
+  },
+
+  introduction: {
+    color: "#3B3B3B",
+    lineHeight: 1.6,
+  },
+
+  carteAnimal: {
+    marginTop: "1.5rem",
+    padding: "1.5rem",
+    border: "2px solid #000000",
+    backgroundColor: "#FFFFFF",
+  },
+
+  titreAnimal: {
+    marginTop: "0.75rem",
+    marginBottom: "1rem",
+    fontSize: "clamp(1.6rem, 5vw, 2.2rem)",
+    lineHeight: 1.2,
+  },
+
+  descriptionAnimal: {
+    margin: 0,
+    color: "#3B3B3B",
+    lineHeight: 1.6,
+  },
+
+  descriptionQualificatif: {
+    marginTop: "1rem",
+    marginBottom: 0,
+    paddingTop: "1rem",
+    borderTop: "1px solid #A5A5A5",
+    color: "#3B3B3B",
+    lineHeight: 1.6,
+  },
+
+  texte: {
+    color: "#3B3B3B",
+    lineHeight: 1.6,
+  },
+
+  blocResultat: {
+    marginTop: "1.5rem",
+    padding: "1.25rem",
+    border: "1px solid #A5A5A5",
+    backgroundColor: "#F5F5F5",
+    lineHeight: 1.6,
+  },
+
+  encadreObservation: {
+    marginTop: "1.5rem",
+    padding: "1.25rem",
+    border: "1px solid #A5A5A5",
+    backgroundColor: "#FFFFFF",
+  },
+
+  sousTitre: {
+    marginTop: 0,
+    marginBottom: "0.75rem",
+    fontWeight: "bold",
+    fontSize: "1.1rem",
+  },
+
+  phraseHumoristique: {
+    marginBottom: 0,
+    color: "#3B3B3B",
+    fontStyle: "italic",
+    lineHeight: 1.6,
+  },
+
+  avertissement: {
+    marginTop: "1.5rem",
+    color: "#3B3B3B",
+    fontStyle: "italic",
+    lineHeight: 1.6,
+  },
+
+  actions: {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "0.75rem",
+    marginTop: "1.5rem",
+  },
+
+  boutonPrincipal: {
+    display: "inline-block",
+    padding: "0.75rem 1rem",
+    border: "1px solid #000000",
+    backgroundColor: "#000000",
+    color: "#FFFFFF",
+    textDecoration: "none",
+    fontWeight: "bold",
+  },
+
+  boutonSecondaire: {
+    display: "inline-block",
+    padding: "0.75rem 1rem",
+    border: "1px solid #000000",
+    backgroundColor: "#FFFFFF",
+    color: "#000000",
+    textDecoration: "none",
+    fontWeight: "bold",
+  },
+};
