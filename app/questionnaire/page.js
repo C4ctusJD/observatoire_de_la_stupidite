@@ -150,12 +150,12 @@ export default function PageQuestionnaire() {
   function calculerResultat() {
     const scoreTotal = questions.reduce((total, question) => {
       const reponseId = reponsesChoisies[question.id];
-
+    
       const reponseSelectionnee = question.reponses.find(
         (reponse) => reponse.id === reponseId
       );
-
-      return total + (reponseSelectionnee?.score ?? 0);
+    
+      return total + (reponseSelectionnee?.score ?? 3);
     }, 0);
 
     const scoreMaximum = questions.length * 3;
