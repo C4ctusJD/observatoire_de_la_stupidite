@@ -124,7 +124,7 @@
           "nom": "laconique",
           "description": "Les éléments secondaires ont été laissés dans un silence administratif presque total. Seul l’essentiel a reçu l’autorisation d’exister.",
           "seuil": {
-            "min": 0,
+            "min": null,
             "max": 5
           }
         },
@@ -134,7 +134,7 @@
           "description": "Les informations complémentaires ont été consultées avec discernement, principalement lorsqu’elles semblaient susceptibles de résoudre quelque chose.",
           "seuil": {
             "min": 6,
-            "max": 15
+            "max": 20
           }
         },
         {
@@ -142,7 +142,7 @@
           "nom": "tripoteur",
           "description": "Les boutons, onglets et petits éléments interactifs ont fait l’objet d’une exploration particulièrement soutenue. L’interface demande encore à être rassurée.",
           "seuil": {
-            "min": 16,
+            "min": 21,
             "max": null
           }
         }
@@ -166,7 +166,7 @@
           "description": "Les indications disponibles ont été consultées avec modération, puis interprétées selon une logique personnelle dont les services compétents cherchent encore le mode d’emploi.",
           "seuil": {
             "min": 2,
-            "max": 3
+            "max": 4
           }
         },
         {
@@ -174,7 +174,7 @@
           "nom": "dépendant",
           "description": "L’aide a été sollicitée avec une belle régularité. Le comité rappelle qu’elle ne peut pas encore répondre aux questions existentielles.",
           "seuil": {
-            "min": 4,
+            "min": 5,
             "max": null
           }
         }
