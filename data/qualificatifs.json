@@ -1,0 +1,216 @@
+{
+  "_meta": {
+    "description": "Qualificatifs associés aux mesures comportementales observées pendant la session.",
+    "obligatoire": [
+      "mesure",
+      "qualificatifs",
+      "id",
+      "nom",
+      "description",
+      "seuil"
+    ],
+    "note": "Fichier non scientifique : les qualificatifs décrivent uniquement des observations ludiques réalisées dans le cadre de l'expérience.",
+    "correspondances": {
+      "temps_avant_reponse": "Temps moyen de réponse",
+      "changements_reponse": "Réponses modifiées",
+      "retours_arriere": "Clics sur « Question précédente »",
+      "clics_secondaires": "Nombre total de clics - 60",
+      "utilisation_aide": "Clics sur « Aide »",
+      "completude": "Taux de complétude"
+    }
+  },
+  "mesures": [
+    {
+      "mesure": "temps_avant_reponse",
+      "qualificatifs": [
+        {
+          "id": "temps_avant_reponse-bas",
+          "nom": "supersonique",
+          "description": "La réponse a été produite avant même que la question ait fini d’arriver. Le comité soupçonne une légère avance sur le temps réglementaire.",
+          "seuil": {
+            "min": 0,
+            "max": 3
+          }
+        },
+        {
+          "id": "temps_avant_reponse-moyen",
+          "nom": "posé",
+          "description": "Un temps de réflexion raisonnable, suffisamment long pour inspirer confiance mais pas assez pour déclencher une réunion extraordinaire.",
+          "seuil": {
+            "min": 3.01,
+            "max": 8
+          }
+        },
+        {
+          "id": "temps_avant_reponse-haut",
+          "nom": "méditatif",
+          "description": "La réponse a bénéficié d’une période de maturation approfondie. Une partie du raisonnement semble toutefois être partie chercher du thé.",
+          "seuil": {
+            "min": 8.01,
+            "max": null
+          }
+        }
+      ]
+    },
+    {
+      "mesure": "changements_reponse",
+      "qualificatifs": [
+        {
+          "id": "changements_reponse-bas",
+          "nom": "inébranlable",
+          "description": "La première décision a été maintenue avec une remarquable stabilité institutionnelle. Même les indices contraires ont été priés de patienter dans le couloir.",
+          "seuil": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "id": "changements_reponse-moyen",
+          "nom": "trouillard",
+          "description": "Quelques hésitations ont été observées face à l’incertitude. Le service recommande l’installation temporaire d’une rambarde mentale.",
+          "seuil": {
+            "min": 2,
+            "max": 3
+          }
+        },
+        {
+          "id": "changements_reponse-haut",
+          "nom": "lunatique",
+          "description": "La réponse a connu plusieurs orientations successives, comme si elle suivait une météo intérieure particulièrement changeante.",
+          "seuil": {
+            "min": 4,
+            "max": null
+          }
+        }
+      ]
+    },
+    {
+      "mesure": "retours_arriere",
+      "qualificatifs": [
+        {
+          "id": "retours_arriere-bas",
+          "nom": "buté",
+          "description": "Aucun retour sur les étapes précédentes n’a été jugé nécessaire. La trajectoire choisie a été suivie avec la détermination d’un meuble lourd.",
+          "seuil": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "id": "retours_arriere-moyen",
+          "nom": "pointilleux",
+          "description": "Plusieurs vérifications ont été menées avec sérieux. L’existence d’un détail minuscule mais capital reste actuellement sous enquête.",
+          "seuil": {
+            "min": 2,
+            "max": 3
+          }
+        },
+        {
+          "id": "retours_arriere-haut",
+          "nom": "archéologue",
+          "description": "Les étapes précédentes ont été minutieusement déterrées, examinées et probablement comparées à des événements vieux de plusieurs civilisations.",
+          "seuil": {
+            "min": 4,
+            "max": null
+          }
+        }
+      ]
+    },
+    {
+      "mesure": "clics_secondaires",
+      "qualificatifs": [
+        {
+          "id": "clics_secondaires-bas",
+          "nom": "laconique",
+          "description": "Les éléments secondaires ont été laissés dans un silence administratif presque total. Seul l’essentiel a reçu l’autorisation d’exister.",
+          "seuil": {
+            "min": 0,
+            "max": 5
+          }
+        },
+        {
+          "id": "clics_secondaires-moyen",
+          "nom": "opportuniste",
+          "description": "Les informations complémentaires ont été consultées avec discernement, principalement lorsqu’elles semblaient susceptibles de résoudre quelque chose.",
+          "seuil": {
+            "min": 6,
+            "max": 15
+          }
+        },
+        {
+          "id": "clics_secondaires-haut",
+          "nom": "tripoteur",
+          "description": "Les boutons, onglets et petits éléments interactifs ont fait l’objet d’une exploration particulièrement soutenue. L’interface demande encore à être rassurée.",
+          "seuil": {
+            "min": 16,
+            "max": null
+          }
+        }
+      ]
+    },
+    {
+      "mesure": "utilisation_aide",
+      "qualificatifs": [
+        {
+          "id": "utilisation_aide-bas",
+          "nom": "arrogant",
+          "description": "L’aide a été ignorée avec une confiance impressionnante. Le dossier indique que la solution devait forcément apparaître par respect pour le talent.",
+          "seuil": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "id": "utilisation_aide-moyen",
+          "nom": "obtus",
+          "description": "Les indications disponibles ont été consultées avec modération, puis interprétées selon une logique personnelle dont les services compétents cherchent encore le mode d’emploi.",
+          "seuil": {
+            "min": 2,
+            "max": 3
+          }
+        },
+        {
+          "id": "utilisation_aide-haut",
+          "nom": "dépendant",
+          "description": "L’aide a été sollicitée avec une belle régularité. Le comité rappelle qu’elle ne peut pas encore répondre aux questions existentielles.",
+          "seuil": {
+            "min": 4,
+            "max": null
+          }
+        }
+      ]
+    },
+    {
+      "mesure": "completude",
+      "qualificatifs": [
+        {
+          "id": "completude-bas",
+          "nom": "négligeant",
+          "description": "Certaines informations ont été abandonnées en cours de route, probablement pour alléger la mission ou par confiance excessive dans la magie du contexte.",
+          "seuil": {
+            "min": 0,
+            "max": 59
+          }
+        },
+        {
+          "id": "completude-moyen",
+          "nom": "tête en l'air",
+          "description": "L’ensemble est globalement présent, avec quelques éléments égarés dans une dimension parallèle. Une fouille des poches est recommandée.",
+          "seuil": {
+            "min": 60,
+            "max": 89
+          }
+        },
+        {
+          "id": "completude-haut",
+          "nom": "exhaustif",
+          "description": "Chaque élément a été traité avec une précision remarquable. Même les détails dont personne ne soupçonnait l’existence figurent au dossier.",
+          "seuil": {
+            "min": 90,
+            "max": 100
+          }
+        }
+      ]
+    }
+  ]
+}
