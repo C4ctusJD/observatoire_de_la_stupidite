@@ -218,7 +218,7 @@ export default function PageResultats() {
             <p style={styles.label}>Classification provisoire</p>
 
             <h2 style={styles.titreAnimal}>
-              Vous êtes un {animal.nom} {qualificatif.nom}
+              Vous êtes un(e) {animal.nom} {qualificatif.nom}
             </h2>
 
             <p style={styles.descriptionAnimal}>
