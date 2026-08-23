@@ -1,10 +1,12 @@
 "use client";
 
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import questionsData from "../../data/questions.json";
 
 export default function PageQuestionnaire() {
+  const router = useRouter();
+
   const questions = useMemo(() => {
     const questionsMelangees = [...questionsData.questions];
 
@@ -25,9 +27,6 @@ export default function PageQuestionnaire() {
   const [reponsesMelangees, setReponsesMelangees] = useState([]);
   const [nombreReponsesModifiees, setNombreReponsesModifiees] =
     useState(0);
-  const [resultat, setResultat] = useState(null);
-  const [fenetreResultatOuverte, setFenetreResultatOuverte] =
-    useState(false);
 
   const tempsDebutQuestions = useRef({});
   const tempsQuestions = useRef({});
@@ -208,20 +207,20 @@ export default function PageQuestionnaire() {
   function terminerQuestionnaire() {
     enregistrerTempsQuestion();
 
+    const questionId = questionActuelle.id;
     const tempsQuestionActuelle =
-      tempsQuestions.current[questionActuelle.id];
+      tempsQuestions.current[questionId];
 
     const tempsQuestionsComplets = {
       ...tempsQuestions.current,
-      [questionActuelle.id]:
+      [questionId]:
         tempsQuestionActuelle ??
-        Date.now() -
-          tempsDebutQuestions.current[questionActuelle.id],
+        Date.now() - tempsDebutQuestions.current[questionId],
     };
 
     tempsQuestions.current = tempsQuestionsComplets;
 
-    const nouveauResultat = calculerResultat();
+    const resultatCalcule = calculerResultat();
 
     const tempsEnregistres = Object.values(tempsQuestionsComplets);
 
@@ -237,16 +236,17 @@ export default function PageQuestionnaire() {
           ) / 10
         : 0;
 
-    setResultat({
-      ...nouveauResultat,
+    const resultatFinal = {
+      ...resultatCalcule,
       tempsMoyenSecondes,
-    });
+    };
 
-    setFenetreResultatOuverte(true);
-  }
+    sessionStorage.setItem(
+      "observatoire-resultat",
+      JSON.stringify(resultatFinal)
+    );
 
-  function fermerFenetreResultat() {
-    setFenetreResultatOuverte(false);
+    router.push("/resultats");
   }
 
   return (
@@ -356,145 +356,6 @@ export default function PageQuestionnaire() {
           </button>
         </div>
       </section>
-
-      {fenetreResultatOuverte && resultat && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="titre-resultat"
-          style={{
-            position: "fixed",
-            inset: 0,
-            zIndex: 1000,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "1rem",
-            backgroundColor: "rgba(0, 0, 0, 0.65)",
-          }}
-        >
-          <section
-            style={{
-              width: "100%",
-              maxWidth: "560px",
-              maxHeight: "90vh",
-              overflowY: "auto",
-              padding: "2rem",
-              border: "2px solid #000000",
-              backgroundColor: "#FFFFFF",
-              color: "#000000",
-            }}
-          >
-            <p
-              style={{
-                margin: 0,
-                color: "#3B3B3B",
-                fontSize: "0.8rem",
-                fontWeight: "bold",
-                letterSpacing: "0.08em",
-                textTransform: "uppercase",
-              }}
-            >
-              Rapport d’observation
-            </p>
-
-            <h2 id="titre-resultat">
-              Questionnaire terminé
-            </h2>
-
-            <div
-              style={{
-                padding: "1rem",
-                border: "1px solid #A5A5A5",
-                backgroundColor: "#F5F5F5",
-              }}
-            >
-              <p>
-                <strong>Taux de complétude :</strong>{" "}
-                {resultat.tauxCompletude} %
-              </p>
-
-              <p>
-                <strong>Score observé :</strong>{" "}
-                {resultat.scoreTotal} / {resultat.scoreMaximum}
-              </p>
-
-              <p>
-                <strong>Indice de stupidité :</strong>{" "}
-                {resultat.indiceStupidite} / 100
-              </p>
-
-              <p>
-                <strong>Temps moyen de réponse :</strong>{" "}
-                {resultat.tempsMoyenSecondes} seconde
-                {resultat.tempsMoyenSecondes !== 1 ? "s" : ""} par question
-              </p>
-
-              <p>
-                <strong>Réponses modifiées :</strong>{" "}
-                {resultat.nombreReponsesModifiees}
-              </p>
-
-              <p>
-                <strong>Nombre total de clics :</strong>{" "}
-                {resultat.nombreClics}
-              </p>
-
-              <p>
-                <strong>Clics sur « Question précédente » :</strong>{" "}
-                {resultat.nombreClicsPrecedents}
-              </p>
-
-              <p>
-                <strong>Clics sur « Aide » :</strong>{" "}
-                {resultat.nombreClicsAide}
-              </p>
-            </div>
-
-            <p
-              style={{
-                marginTop: "1.5rem",
-                color: "#3B3B3B",
-                fontStyle: "italic",
-                lineHeight: 1.5,
-              }}
-            >
-              Cette observation est fictive, humoristique et non
-              scientifique. Les résultats décrivent uniquement cette
-              session.
-            </p>
-
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "0.75rem",
-                marginTop: "1.5rem",
-              }}
-            >
-              <button onClick={fermerFenetreResultat}>
-                Fermer
-              </button>
-
-              <Link
-                href="/"
-                onClick={fermerFenetreResultat}
-                style={{
-                  display: "inline-block",
-                  padding: "0.6rem 1rem",
-                  border: "1px solid #000000",
-                  backgroundColor: "#000000",
-                  color: "#FFFFFF",
-                  textDecoration: "none",
-                  fontWeight: "bold",
-                }}
-              >
-                Retour à l’accueil
-              </Link>
-            </div>
-          </section>
-        </div>
-      )}
     </main>
   );
 }
