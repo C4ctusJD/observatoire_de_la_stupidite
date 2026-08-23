@@ -21,17 +21,17 @@
         {
           "id": "q01-a",
           "texte": "Je l’utilise quand même, puisque personne ne semble s’y opposer non mais ho, dis donc.",
-          "score": 3
+          "score": 2
         },
         {
           "id": "q01-b",
           "texte": "Je cherche rapidement une autre tasse, je regarde par-dessus mon épaule et j’évalue les risques de remplir celle-ci d’un quelconque breuvage.",
-          "score": 2
+          "score": 1
         },
         {
           "id": "q01-c",
           "texte": "Je mets la tasse de côté et j’attends d’avoir compris l’étiquette. Par précaution, je prépare déjà quelques étiquettes à mon nom.",
-          "score": 1
+          "score": 0
         }
       ],
       "info_nouvelle": null
@@ -44,17 +44,17 @@
         {
           "id": "q02-a",
           "texte": "J’appuie immédiatement sur le bouton d’appel. Plusieurs fois. L'ascenseur qui me mettra un vent n'est pas né.",
-          "score": 3
+          "score": 2
         },
         {
           "id": "q02-b",
           "texte": "J’attends un instant pour voir s’il revient, après tout pourquoi pas ?",
-          "score": 2
+          "score": 1
         },
         {
           "id": "q02-c",
           "texte": "Je vérifie d’abord l’étage affiché et le panneau d’information avant de rappeler l’ascenseur. S’il repart encore, je considère qu’il a probablement un agenda plus important que le mien.",
-          "score": 1
+          "score": 0
         }
       ],
       "info_nouvelle": null
@@ -67,17 +67,17 @@
         {
           "id": "q03-a",
           "texte": "J’appuie tout de suite pour connaître la raison. Méthode d’enquête directe, efficacité, pas de blabla.",
-          "score": 3
+          "score": 2
         },
         {
           "id": "q03-b",
           "texte": "Je m’approche, je lis la consigne une seconde fois, je réalise l’absurdité de la situation, puis j’envisage d’appuyer.",
-          "score": 2
+          "score": 1
         },
         {
           "id": "q03-c",
           "texte": "Je ne touche à rien et je cherche d’abord qui a installé le bouton, pour quelle raison et pourquoi il est rouge.",
-          "score": 1
+          "score": 0
         }
       ],
       "info_nouvelle": null
@@ -90,17 +90,17 @@
         {
           "id": "q04-a",
           "texte": "Je commence directement. Les meubles sont rarement plus intelligents que moi. D'ailleurs passe-moi une clé de 10, on a toujours besoin d'une clé de 10.",
-          "score": 3
+          "score": 2
         },
         {
           "id": "q04-b",
           "texte": "Je parcours la notice pour repérer les étapes qui semblent importantes. Apparemment il me faudrait une clé de 10.",
-          "score": 2
+          "score": 1
         },
         {
           "id": "q04-c",
           "texte": "Je vérifie d’abord que toutes les pièces sont présentes et que l’ordre proposé reste compréhensible. Je préviens ma copropriété afin qu’elle puisse suivre l’évolution du dossier.",
-          "score": 1
+          "score": 0
         }
       ],
       "info_nouvelle": null
@@ -113,17 +113,17 @@
         {
           "id": "q05-a",
           "texte": "Je l’ouvre convaincu que le message confirmera mon intuition.",
-          "score": 3
+          "score": 2
         },
         {
           "id": "q05-b",
           "texte": "J’essaie de deviner son contenu, puis je l’ouvre pour vérifier.",
-          "score": 2
+          "score": 1
         },
         {
           "id": "q05-c",
           "texte": "Je hausse les épaules et efface la notification. Encore un test pourri sur internet certainement.",
-          "score": 1
+          "score": 0
         }
       ],
       "info_nouvelle": null
@@ -136,17 +136,17 @@
         {
           "id": "q06-a",
           "texte": "Je choisis le chemin qui me semble le plus logique. Les panneaux sont parfois moins fiables que mon instinct.",
-          "score": 3
+          "score": 2
         },
         {
           "id": "q06-b",
           "texte": "Je compare rapidement les indications avant de m’engager dans une direction incertaine.",
-          "score": 2
+          "score": 1
         },
         {
           "id": "q06-c",
           "texte": "Je demande confirmation à l’accueil, quitte à admettre que trois flèches peuvent encore me dépasser.",
-          "score": 1
+          "score": 0
         }
       ],
       "info_nouvelle": null
@@ -159,17 +159,17 @@
         {
           "id": "q07-a",
           "texte": "Je prétends que la consigne était mal placée et que personne ne pouvait raisonnablement la voir. Des P-I-C-T-O-G-R-A-M-M-E-S, voilà quelque chose que les gens comprennent.",
-          "score": 3
+          "score": 2
         },
         {
           "id": "q07-b",
           "texte": "Je reconnais l’avoir vue, mais j’explique qu’elle manquait de contexte. Et franchement jaune sur blanc...",
-          "score": 2
+          "score": 1
         },
         {
           "id": "q07-c",
           "texte": "J’admets que je l’ai simplement ignorée. La commission pourra inscrire « erreur classique » dans son rapport et classer l’incident dans la rubrique des erreurs parfaitement documentées.",
-          "score": 1
+          "score": 0
         }
       ],
       "info_nouvelle": null
@@ -182,17 +182,17 @@
         {
           "id": "q08-a",
           "texte": "Elles n’étaient pas réellement dans ma poche au début de la recherche. Je suis habitué, depuis quasiment ma naissance, à trouver des trucs dans ma poche : c’est impossible.",
-          "score": 3
+          "score": 2
         },
         {
           "id": "q08-b",
           "texte": "Elles étaient dissimulées dans une zone difficilement accessible. Vous avez vu la taille de ces poches ?!",
-          "score": 2
+          "score": 1
         },
         {
           "id": "q08-c",
           "texte": "Je reconnais avoir fouillé partout sauf au seul endroit pertinent.",
-          "score": 1
+          "score": 0
         }
       ],
       "info_nouvelle": null
@@ -205,17 +205,17 @@
         {
           "id": "q09-a",
           "texte": "Cette partie ne compte pas. Les conditions générales de la victoire n’étaient pas suffisamment explicites. Et puis franchement, qui met un +4 sur un +2 ?",
-          "score": 3
+          "score": 2
         },
         {
           "id": "q09-b",
           "texte": "Je reconnais avoir perdu, mais je précise que j’étais déconcentré par l’ambiance défaitiste générale.",
-          "score": 2
+          "score": 1
         },
         {
           "id": "q09-c",
           "texte": "J’admets que ma prédiction manquait légèrement de précision. On rejoue ?",
-          "score": 1
+          "score": 0
         }
       ],
       "info_nouvelle": null
@@ -228,17 +228,17 @@
         {
           "id": "q10-a",
           "texte": "Je me retourne immédiatement. Il ne faudrait pas perturber son itinéraire.",
-          "score": 3
+          "score": 2
         },
         {
           "id": "q10-b",
           "texte": "Je ralentis pour vérifier si sa trajectoire semble réellement influencée par la mienne.",
-          "score": 2
+          "score": 1
         },
         {
           "id": "q10-c",
           "texte": "Je me demande surtout pourquoi mon ami connaît si précisément les habitudes directionnelles des pigeons.",
-          "score": 1
+          "score": 0
         }
       ],
       "info_nouvelle": null
@@ -251,17 +251,17 @@
         {
           "id": "q11-a",
           "texte": "Je prétends ne pas avoir compris. Il vaut mieux éviter une procédure supplémentaire.",
-          "score": 3
+          "score": 2
         },
         {
           "id": "q11-b",
           "texte": "J’attends quelques secondes, on ne sait jamais, des fois que je comprenne.",
-          "score": 2
+          "score": 1
         },
         {
           "id": "q11-c",
           "texte": "Je prends mon air le plus déterminé et je remonte la file d’attente. Après tout, l’assurance est parfois plus rapide que la compréhension.",
-          "score": 1
+          "score": 0
         }
       ],
       "info_nouvelle": null
@@ -274,17 +274,17 @@
         {
           "id": "q12-a",
           "texte": "Je m’éloigne lentement afin de laisser le banc se détendre.",
-          "score": 3
+          "score": 2
         },
         {
           "id": "q12-b",
           "texte": "Je m’assois, mais je regarde mes pieds.",
-          "score": 2
+          "score": 1
         },
         {
           "id": "q12-c",
           "texte": "J’engage un combat de regards avec le premier mobilier urbain venu.",
-          "score": 1
+          "score": 0
         }
       ],
       "info_nouvelle": null
@@ -297,17 +297,17 @@
         {
           "id": "q13-a",
           "texte": "Le bouton réagit sûrement par accumulation. J’ai préféré ne pas prendre le risque que ma demande soit ignorée.",
-          "score": 3
+          "score": 2
         },
         {
           "id": "q13-b",
           "texte": "Je savais bien qu’une seule pression suffisait, mais cela m’a donné l’impression de participer activement à la sécurité routière.",
-          "score": 2
+          "score": 1
         },
         {
           "id": "q13-c",
           "texte": "Je voulais vérifier si le bouton fonctionnait réellement ou s’il était uniquement décoratif comme celui de l'alarme dans l'ascenseur.",
-          "score": 1
+          "score": 0
         }
       ],
       "info_nouvelle": null
@@ -320,17 +320,17 @@
         {
           "id": "q14-a",
           "texte": "Son inutilité actuelle ne permet pas d’exclure une fonction future.",
-          "score": 3
+          "score": 2
         },
         {
           "id": "q14-b",
           "texte": "Je ne sais pas ce que c’est, donc je ne peux pas prendre la responsabilité de sa disparition.",
-          "score": 2
+          "score": 1
         },
         {
           "id": "q14-c",
           "texte": "Le jour où je le jetterai, l’objet correspondant apparaîtra probablement dans les vingt-quatre heures.",
-          "score": 1
+          "score": 0
         }
       ],
       "info_nouvelle": null
@@ -343,17 +343,17 @@
         {
           "id": "q15-a",
           "texte": "Je n’ai pas dépensé 20 euros : j’en ai économisé 30.",
-          "score": 3
+          "score": 2
         },
         {
           "id": "q15-b",
           "texte": "Il pourrait devenir utile dans une situation encore inconnue.",
-          "score": 2
+          "score": 1
         },
         {
           "id": "q15-c",
           "texte": "J’en avais envie. On ne va pas se mentir.",
-          "score": 1
+          "score": 0
         }
       ],
       "info_nouvelle": null
@@ -366,17 +366,17 @@
         {
           "id": "q16-a",
           "texte": "J’ai voulu offrir à chaque aliment un environnement différent afin de stimuler son potentiel.",
-          "score": 3
+          "score": 2
         },
         {
           "id": "q16-b",
           "texte": "J’ai probablement pensé à l’étape suivante avant d’avoir terminé l’étape actuelle.",
-          "score": 2
+          "score": 1
         },
         {
           "id": "q16-c",
           "texte": "J’ai inversé les deux contenants sans m’en rendre compte.",
-          "score": 1
+          "score": 0
         }
       ],
       "info_nouvelle": null
@@ -389,17 +389,17 @@
         {
           "id": "q17-a",
           "texte": "J’ai appliqué une formule toute faite de secours avant d’identifier la nature exacte de l’information.",
-          "score": 3
+          "score": 2
         },
         {
           "id": "q17-b",
           "texte": "J’ai compris la situation avec un léger retard, après avoir parlé.",
-          "score": 2
+          "score": 1
         },
         {
           "id": "q17-c",
           "texte": "J’ai répondu automatiquement sans écouter la phrase. Le protocole social a pris le contrôle.",
-          "score": 1
+          "score": 0
         }
       ],
       "info_nouvelle": null
@@ -412,17 +412,17 @@
         {
           "id": "q18-a",
           "texte": "J’ai décidé de faire confiance à mon doigt. Il était disponible, motivé et situé à proximité immédiate.",
-          "score": 3
+          "score": 2
         },
         {
           "id": "q18-b",
           "texte": "J’ai commencé le geste avant de vérifier la conformité du matériel. Et puis mince, ça marche.",
-          "score": 2
+          "score": 1
         },
         {
           "id": "q18-c",
           "texte": "J’ai privilégié la continuité de la procédure au détriment de l’outil traditionnel.",
-          "score": 1
+          "score": 0
         }
       ],
       "info_nouvelle": null
@@ -435,17 +435,17 @@
         {
           "id": "q19-a",
           "texte": "J’applaudis également. Le distributeur vient peut-être d’accomplir une opération remarquable.",
-          "score": 3
+          "score": 2
         },
         {
           "id": "q19-b",
           "texte": "Je regarde silencieusement autour de moi pour déterminer si une cérémonie est en cours.",
-          "score": 2
+          "score": 1
         },
         {
           "id": "q19-c",
           "texte": "Je n’applaudis pas, mais je commence à trouver le distributeur sympathique.",
-          "score": 1
+          "score": 0
         }
       ],
       "info_nouvelle": null
@@ -458,17 +458,17 @@
         {
           "id": "q20-a",
           "texte": "Je note également cornichon. Il s’agit peut-être du terme central d’une stratégie confidentielle.",
-          "score": 3
+          "score": 2
         },
         {
           "id": "q20-b",
           "texte": "Je fais semblant de comprendre en soulignant le mot deux fois.",
-          "score": 2
+          "score": 1
         },
         {
           "id": "q20-c",
           "texte": "Je demande pourquoi tout le monde écrit la même chose, au risque d’interrompre une avancée majeure de notre civilisation.",
-          "score": 1
+          "score": 0
         }
       ],
       "info_nouvelle": null
@@ -481,17 +481,17 @@
         {
           "id": "q21-a",
           "texte": "Je chuchote à mon tour. Le groupe dispose peut-être d’informations confidentielles sur le volume sonore.",
-          "score": 3
+          "score": 2
         },
         {
           "id": "q21-b",
           "texte": "Je baisse la voix en attendant de comprendre la situation.",
-          "score": 2
+          "score": 1
         },
         {
           "id": "q21-c",
           "texte": "Je parle normalement, au risque d’être identifié comme le principal responsable d’un incident acoustique collectif.",
-          "score": 1
+          "score": 0
         }
       ],
       "info_nouvelle": null
@@ -504,17 +504,17 @@
         {
           "id": "q22-a",
           "texte": "Je considère qu’il vient de m’adresser un signal codé concernant l’heure officielle.",
-          "score": 3
+          "score": 2
         },
         {
           "id": "q22-b",
           "texte": "Je me demande s’il m’a reconnu ou s’il souriait simplement à quelqu’un d’autre.",
-          "score": 2
+          "score": 1
         },
         {
           "id": "q22-c",
           "texte": "Je vérifie l’heure, puis je poursuis mon chemin. Il est inutile de transformer chaque sourire en conférence diplomatique.",
-          "score": 1
+          "score": 0
         }
       ],
       "info_nouvelle": null
@@ -527,17 +527,17 @@
         {
           "id": "q23-a",
           "texte": "Je considère que quelqu’un m’observe depuis longtemps et qu’un message vient enfin de se manifester.",
-          "score": 3
+          "score": 2
         },
         {
           "id": "q23-b",
           "texte": "Je trouve la coïncidence amusante, sans lui attribuer de mission particulière.",
-          "score": 2
+          "score": 1
         },
         {
           "id": "q23-c",
           "texte": "Je relis la phrase pour vérifier si elle parle vraiment de moi ou simplement des gens en général.",
-          "score": 1
+          "score": 0
         }
       ],
       "info_nouvelle": null
@@ -550,17 +550,17 @@
         {
           "id": "q24-a",
           "texte": "Son silence est probablement une réponse indirecte. Je vais examiner la ponctuation de mon dernier message.",
-          "score": 3
+          "score": 2
         },
         {
           "id": "q24-b",
           "texte": "Je suppose qu’il est occupé, distrait ou momentanément en conflit avec son clavier.",
-          "score": 2
+          "score": 1
         },
         {
           "id": "q24-c",
           "texte": "Je réessaie plus tard, tant pis.",
-          "score": 1
+          "score": 0
         }
       ],
       "info_nouvelle": null
@@ -573,17 +573,17 @@
         {
           "id": "q25-a",
           "texte": "Je le saisis encore quelques fois. L’application finira bien par reconnaître une information qu’elle connaît déjà.",
-          "score": 3
+          "score": 2
         },
         {
           "id": "q25-b",
           "texte": "Je vérifie la disposition du clavier et les majuscules avant de modifier quoi que ce soit.",
-          "score": 2
+          "score": 1
         },
         {
           "id": "q25-c",
           "texte": "Je demande une réinitialisation du mot de passe. Le système semble avoir officiellement changé d’avis.",
-          "score": 1
+          "score": 0
         }
       ],
       "info_nouvelle": null
@@ -596,17 +596,17 @@
         {
           "id": "q26-a",
           "texte": "Je décide qu’elle est probablement optionnelle et je poursuis le montage. Il faut parfois savoir laisser une pièce vivre sa propre destinée.",
-          "score": 3
+          "score": 2
         },
         {
           "id": "q26-b",
           "texte": "Je consulte rapidement la notice pour vérifier si elle devait être utilisée plus tôt. Si elle est en suédois, je considère que l’erreur vient officiellement du fabricant.",
-          "score": 2
+          "score": 1
         },
         {
           "id": "q26-c",
           "texte": "Je démonte la partie concernée pour retrouver précisément l’étape où l’erreur s’est produite, puis je contacte le service client avec des preuves.",
-          "score": 1
+          "score": 0
         }
       ],
       "info_nouvelle": null
@@ -619,17 +619,17 @@
         {
           "id": "q27-a",
           "texte": "Je reste dans ma file. Si je change, elle va forcément se réveiller.",
-          "score": 3
+          "score": 2
         },
         {
           "id": "q27-b",
           "texte": "J’observe les autres files pour vérifier si la situation est temporaire.",
-          "score": 2
+          "score": 1
         },
         {
           "id": "q27-c",
           "texte": "Je change de file lorsque cela semble clairement plus efficace.",
-          "score": 1
+          "score": 0
         }
       ],
       "info_nouvelle": null
@@ -642,17 +642,17 @@
         {
           "id": "q28-a",
           "texte": "Je lui demande une explication complète, avec chronologie des faits et reconstitution du déplacement.",
-          "score": 3
+          "score": 2
         },
         {
           "id": "q28-b",
           "texte": "Je la remets à sa place en demandant au voisin pourquoi il l’avait déplacée.",
-          "score": 2
+          "score": 1
         },
         {
           "id": "q28-c",
           "texte": "Je la laisse où elle est. Elle bénéficie désormais d’une meilleure exposition au soleil.",
-          "score": 1
+          "score": 0
         }
       ],
       "info_nouvelle": null
@@ -665,17 +665,17 @@
         {
           "id": "q29-a",
           "texte": "Je considère que la confiance est rompue et que nous devons désormais revoir les conditions générales de notre relation.",
-          "score": 3
+          "score": 2
         },
         {
           "id": "q29-b",
           "texte": "Je lui fais la tête pendant seulement deux semaines. Il faut savoir rester raisonnable.",
-          "score": 2
+          "score": 1
         },
         {
           "id": "q29-c",
           "texte": "Je regarde l’épisode suivant quand même.",
-          "score": 1
+          "score": 0
         }
       ],
       "info_nouvelle": null
@@ -688,17 +688,17 @@
         {
           "id": "q30-a",
           "texte": "Je ferme la porte et je réunis mentalement les aliments pour évaluer l’ampleur de leur traumatisme thermique.",
-          "score": 3
+          "score": 2
         },
         {
           "id": "q30-b",
           "texte": "Je la referme en me disant qu’il faudra faire attention. Pourquoi pas un panneau « Fermez-moi » ? Mais il faudrait qu’il soit à l’intérieur.",
-          "score": 2
+          "score": 1
         },
         {
           "id": "q30-c",
           "texte": "Je ferme la porte. Le réfrigérateur semble avoir surmonté l’incident. La charcuterie est sauve.",
-          "score": 1
+          "score": 0
         }
       ],
       "info_nouvelle": null
