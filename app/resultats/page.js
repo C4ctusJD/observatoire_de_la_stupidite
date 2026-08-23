@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import animauxData from "../../data/animaux.json";
+
 export default function PageResultats() {
   const [resultat, setResultat] = useState(null);
   const [chargement, setChargement] = useState(true);
@@ -32,6 +34,7 @@ export default function PageResultats() {
       <main style={styles.page}>
         <section style={styles.carte}>
           <p style={styles.label}>Rapport d’observation</p>
+
           <p style={styles.texte}>
             Lecture des données pseudo-scientifiques en cours…
           </p>
@@ -77,6 +80,12 @@ export default function PageResultats() {
     );
   }
 
+  const animalObserve = animauxData.animaux.find(
+    (animal) =>
+      resultat.indiceStupidite >= animal.score_min &&
+      resultat.indiceStupidite <= animal.score_max
+  );
+
   return (
     <main style={styles.page}>
       <section style={styles.carte}>
@@ -95,15 +104,33 @@ export default function PageResultats() {
           scientifique.
         </p>
 
+        <div style={styles.carteAnimal}>
+          <p style={styles.label}>
+            Classification animalière provisoire
+          </p>
+
+          {animalObserve ? (
+            <>
+              <h2 style={styles.titreAnimal}>
+                Vous êtes un {animalObserve.nom}
+              </h2>
+
+              <p style={styles.descriptionAnimal}>
+                {animalObserve.description}
+              </p>
+            </>
+          ) : (
+            <p style={styles.texte}>
+              Aucun animal correspondant n’a pu être identifié dans
+              les archives de l’Observatoire.
+            </p>
+          )}
+        </div>
+
         <div style={styles.blocResultat}>
           <p>
             <strong>Taux de complétude :</strong>{" "}
             {resultat.tauxCompletude} %
-          </p>
-
-          <p>
-            <strong>Score observé :</strong>{" "}
-            {resultat.scoreTotal} / {resultat.scoreMaximum}
           </p>
 
           <p>
@@ -215,6 +242,26 @@ const styles = {
   },
 
   introduction: {
+    color: "#3B3B3B",
+    lineHeight: 1.6,
+  },
+
+  carteAnimal: {
+    marginTop: "1.5rem",
+    padding: "1.5rem",
+    border: "2px solid #000000",
+    backgroundColor: "#FFFFFF",
+  },
+
+  titreAnimal: {
+    marginTop: "0.75rem",
+    marginBottom: "1rem",
+    fontSize: "clamp(1.6rem, 5vw, 2.2rem)",
+    lineHeight: 1.2,
+  },
+
+  descriptionAnimal: {
+    margin: 0,
     color: "#3B3B3B",
     lineHeight: 1.6,
   },
