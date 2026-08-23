@@ -19,9 +19,7 @@ function trouverQualificatif(mesure, valeur) {
     (element) => element.mesure === mesure
   );
 
-  if (!mesureData) {
-    return null;
-  }
+  if (!mesureData) return null;
 
   const qualificatifBas = mesureData.qualificatifs.find(
     (qualificatif) => qualificatif.id.endsWith("-bas")
@@ -87,53 +85,75 @@ export default function PageResultats() {
     if (resultatEnregistre) {
       try {
         const resultatParse = JSON.parse(resultatEnregistre);
-
         setResultat(resultatParse);
 
-        const mesuresDisponibles = [
-          {
-            mesure: "completude",
-            valeur: resultatParse.tauxCompletude ?? 0,
-          },
-          {
-            mesure: "temps_avant_reponse",
-            valeur: resultatParse.tempsMoyenSecondes ?? 0,
-          },
-          {
-            mesure: "changements_reponse",
-            valeur: resultatParse.nombreReponsesModifiees ?? 0,
-          },
-          {
-            mesure: "clics_secondaires",
-            valeur: Math.max(
-              0,
-              (resultatParse.nombreClics ?? 0) - 60
-            ),
-          },
-          {
-            mesure: "retours_arriere",
-            valeur: resultatParse.nombreClicsPrecedents ?? 0,
-          },
-          {
-            mesure: "utilisation_aide",
-            valeur: resultatParse.nombreClicsAide ?? 0,
-          },
-        ];
-
-        const mesureTiree =
-          mesuresDisponibles[
-            Math.floor(Math.random() * mesuresDisponibles.length)
-          ];
-
-        const qualificatifTrouve = trouverQualificatif(
-          mesureTiree.mesure,
-          mesureTiree.valeur
+        const qualificatifEnregistre = sessionStorage.getItem(
+          "observatoire-qualificatif"
         );
 
-        setQualificatif(qualificatifTrouve);
+        if (qualificatifEnregistre) {
+          const qualificatifParse = JSON.parse(
+            qualificatifEnregistre
+          );
+
+          setQualificatif(qualificatifParse);
+        } else {
+          const mesuresDisponibles = [
+            {
+              mesure: "completude",
+              valeur: resultatParse.tauxCompletude ?? 0,
+            },
+            {
+              mesure: "temps_avant_reponse",
+              valeur: resultatParse.tempsMoyenSecondes ?? 0,
+            },
+            {
+              mesure: "changements_reponse",
+              valeur:
+                resultatParse.nombreReponsesModifiees ?? 0,
+            },
+            {
+              mesure: "clics_secondaires",
+              valeur: Math.max(
+                0,
+                (resultatParse.nombreClics ?? 0) - 60
+              ),
+            },
+            {
+              mesure: "retours_arriere",
+              valeur:
+                resultatParse.nombreClicsPrecedents ?? 0,
+            },
+            {
+              mesure: "utilisation_aide",
+              valeur: resultatParse.nombreClicsAide ?? 0,
+            },
+          ];
+
+          const mesureTiree =
+            mesuresDisponibles[
+              Math.floor(
+                Math.random() * mesuresDisponibles.length
+              )
+            ];
+
+          const qualificatifTrouve = trouverQualificatif(
+            mesureTiree.mesure,
+            mesureTiree.valeur
+          );
+
+          if (qualificatifTrouve) {
+            sessionStorage.setItem(
+              "observatoire-qualificatif",
+              JSON.stringify(qualificatifTrouve)
+            );
+
+            setQualificatif(qualificatifTrouve);
+          }
+        }
       } catch (erreur) {
         console.error(
-          "Impossible de lire le résultat enregistré.",
+          "Impossible de lire les données enregistrées.",
           erreur
         );
       }
