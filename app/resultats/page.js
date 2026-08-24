@@ -241,6 +241,12 @@ export default function PageResultats() {
               Vous êtes un(e) {animal.nom} {qualificatif.nom}
             </h2>
 
+            <img
+              src={animal.illustration}
+              alt={`Illustration humoristique : ${animal.nom}`}
+              style={styles.imageAnimal}
+            />
+
             <p style={styles.descriptionAnimal}>
               {animal.description}
             </p>
@@ -388,6 +394,15 @@ const styles = {
     marginBottom: "1rem",
     fontSize: "clamp(1.6rem, 5vw, 2.2rem)",
     lineHeight: 1.2,
+  },
+
+  imageAnimal: {
+    display: "block",
+    width: "100%",
+    maxWidth: "280px",
+    height: "280px",
+    margin: "0 auto 1.5rem",
+    objectFit: "contain",
   },
 
   descriptionAnimal: {
