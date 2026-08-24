@@ -11,11 +11,11 @@ export default function PageAccueil() {
           <span className={styles.embleme}>◼</span>
 
           <div>
-            <strong>République presque française</strong>
+            <strong>Université Nationale des Sciences Inutiles</strong>
             <br />
 
             <span className={styles.sousTexte}>
-              Liberté, égalité, mauvaise foi
+              In dubio, clicca iterum.
             </span>
           </div>
         </div>
@@ -26,17 +26,21 @@ export default function PageAccueil() {
         <div className={styles.conteneur}>
           <div className={styles.entetePrincipal}>
             <Link href="/" className={styles.identite}>
-              <span className={styles.logo}>O</span>
+              <img
+                src="/images/logo_ods.png"
+                alt="Logo de L’Observatoire de la Stupidité"
+                className={styles.logo}
+              />
 
               <span>
                 <strong className={styles.nomSite}>
-                  L’Observatoire
+                  Observatoire
                   <br />
                   de la Stupidité
                 </strong>
 
                 <span className={styles.baseline}>
-                  Institution fictive d’observation comportementale
+                  Institution d’observations comportementales affligeantes
                 </span>
               </span>
             </Link>
