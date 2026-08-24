@@ -57,15 +57,10 @@
 }
 
 .logo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
   width: 3.8rem;
   height: 3.8rem;
-  border: 3px solid #000000;
-  border-radius: 50%;
-  font-size: 2rem;
-  font-weight: bold;
+  object-fit: contain;
 }
 
 .nomSite {
