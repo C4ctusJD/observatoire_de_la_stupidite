@@ -215,6 +215,18 @@ export default function PageResultats() {
 
   const animal = trouverAnimal(resultat.indiceStupidite);
 
+  const topCategories = Array.isArray(resultat.categories)
+    ? resultat.categories
+        .filter(
+          (categorie) =>
+            categorie &&
+            typeof categorie.indice === "number" &&
+            categorie.nombreReponses > 0
+        )
+        .sort((a, b) => b.indice - a.indice)
+        .slice(0, 3)
+    : [];
+
   return (
     <main style={styles.page}>
       <section style={styles.carte}>
@@ -301,6 +313,49 @@ export default function PageResultats() {
             {resultat.nombreClicsAide}
           </p>
         </div>
+
+        {topCategories.length > 0 && (
+          <section style={styles.sectionCategories}>
+            <p style={styles.sousTitre}>
+              Top 3 des catégories observées
+            </p>
+
+            <p style={styles.texte}>
+              Les catégories ci-dessous correspondent aux domaines
+              ayant obtenu les indices les plus élevés durant cette
+              session.
+            </p>
+
+            <div>
+              {topCategories.map((categorie, index) => (
+                <article
+                  key={categorie.id}
+                  style={styles.carteCategorie}
+                >
+                  <div style={styles.enteteCategorie}>
+                    <span style={styles.rangCategorie}>
+                      {index + 1}
+                    </span>
+
+                    <div>
+                      <h3 style={styles.titreCategorie}>
+                        {categorie.label}
+                      </h3>
+
+                      <p style={styles.indiceCategorie}>
+                        Indice observé : {categorie.indice} / 100
+                      </p>
+                    </div>
+                  </div>
+
+                  <p style={styles.descriptionCategorie}>
+                    {categorie.description_resultat}
+                  </p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
 
         <div style={styles.encadreObservation}>
           <p style={styles.sousTitre}>
@@ -430,6 +485,54 @@ const styles = {
     padding: "1.25rem",
     border: "1px solid #A5A5A5",
     backgroundColor: "#F5F5F5",
+    lineHeight: 1.6,
+  },
+
+  sectionCategories: {
+    marginTop: "1.5rem",
+  },
+
+  carteCategorie: {
+    marginTop: "1rem",
+    padding: "1.25rem",
+    border: "1px solid #A5A5A5",
+    backgroundColor: "#F5F5F5",
+  },
+
+  enteteCategorie: {
+    display: "flex",
+    alignItems: "center",
+    gap: "1rem",
+  },
+
+  rangCategorie: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexShrink: 0,
+    width: "2.25rem",
+    height: "2.25rem",
+    backgroundColor: "#000000",
+    color: "#FFFFFF",
+    fontWeight: "bold",
+    fontSize: "1.1rem",
+  },
+
+  titreCategorie: {
+    margin: 0,
+    fontSize: "1.1rem",
+  },
+
+  indiceCategorie: {
+    margin: "0.35rem 0 0",
+    color: "#3B3B3B",
+    fontSize: "0.9rem",
+    fontWeight: "bold",
+  },
+
+  descriptionCategorie: {
+    marginBottom: 0,
+    color: "#3B3B3B",
     lineHeight: 1.6,
   },
 
