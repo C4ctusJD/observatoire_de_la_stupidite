@@ -2,7 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
+
 import questionsData from "../../data/questions.json";
+import categoriesData from "../../data/categories.json";
 
 export default function PageQuestionnaire() {
   const router = useRouter();
@@ -47,7 +49,10 @@ export default function PageQuestionnaire() {
     for (let i = reponses.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
 
-      [reponses[i], reponses[j]] = [reponses[j], reponses[i]];
+      [reponses[i], reponses[j]] = [
+        reponses[j],
+        reponses[i],
+      ];
     }
 
     setReponsesMelangees(reponses);
@@ -56,7 +61,8 @@ export default function PageQuestionnaire() {
       !tempsDebutQuestions.current[questionActuelle.id] &&
       !tempsQuestions.current[questionActuelle.id]
     ) {
-      tempsDebutQuestions.current[questionActuelle.id] = Date.now();
+      tempsDebutQuestions.current[questionActuelle.id] =
+        Date.now();
     }
   }, [questionIndex, questionActuelle]);
 
@@ -64,8 +70,11 @@ export default function PageQuestionnaire() {
     return <p>Aucune question disponible.</p>;
   }
 
-  const derniereQuestion = questionIndex === questions.length - 1;
-  const reponseChoisie = reponsesChoisies[questionActuelle.id];
+  const derniereQuestion =
+    questionIndex === questions.length - 1;
+
+  const reponseChoisie =
+    reponsesChoisies[questionActuelle.id];
 
   function enregistrerClic() {
     nombreClicsRef.current += 1;
@@ -101,7 +110,9 @@ export default function PageQuestionnaire() {
         ancienneReponse &&
         ancienneReponse !== reponseId)
     ) {
-      setNombreReponsesModifiees((nombre) => nombre + 1);
+      setNombreReponsesModifiees(
+        (nombre) => nombre + 1
+      );
     }
 
     delete reponsesEnModification.current[questionId];
@@ -116,7 +127,8 @@ export default function PageQuestionnaire() {
 
   function modifierReponse() {
     const questionId = questionActuelle.id;
-    const reponseActuelle = reponsesChoisies[questionId];
+    const reponseActuelle =
+      reponsesChoisies[questionId];
 
     if (reponseActuelle) {
       reponsesEnModification.current[questionId] =
@@ -124,7 +136,9 @@ export default function PageQuestionnaire() {
     }
 
     setReponsesChoisies((reponsesActuelles) => {
-      const nouvellesReponses = { ...reponsesActuelles };
+      const nouvellesReponses = {
+        ...reponsesActuelles,
+      };
 
       delete nouvellesReponses[questionId];
 
@@ -148,21 +162,38 @@ export default function PageQuestionnaire() {
   }
 
   function calculerResultat() {
-    const scoreTotal = questions.reduce((total, question) => {
-      const reponseId = reponsesChoisies[question.id];
-    
-      const reponseSelectionnee = question.reponses.find(
-        (reponse) => reponse.id === reponseId
-      );
-    
-      return total + (reponseSelectionnee?.score ?? 3);
-    }, 0);
+    /*
+     * Score général.
+     *
+     * Une question non répondue conserve ici la valeur actuelle
+     * de 3 afin de ne pas modifier le fonctionnement existant
+     * du score général.
+     */
+    const scoreTotal = questions.reduce(
+      (total, question) => {
+        const reponseId =
+          reponsesChoisies[question.id];
+
+        const reponseSelectionnee =
+          question.reponses.find(
+            (reponse) => reponse.id === reponseId
+          );
+
+        return (
+          total +
+          (reponseSelectionnee?.score ?? 3)
+        );
+      },
+      0
+    );
 
     const scoreMaximum = questions.length * 3;
 
     const indiceStupidite =
       scoreMaximum > 0
-        ? Math.round((scoreTotal / scoreMaximum) * 100)
+        ? Math.round(
+            (scoreTotal / scoreMaximum) * 100
+          )
         : 0;
 
     const nombreQuestionsRepondues =
@@ -171,9 +202,98 @@ export default function PageQuestionnaire() {
     const tauxCompletude =
       questions.length > 0
         ? Math.round(
-            (nombreQuestionsRepondues / questions.length) * 100
+            (nombreQuestionsRepondues /
+              questions.length) *
+              100
           )
         : 0;
+
+    /*
+     * Calcul des catégories.
+     *
+     * Les questions non répondues sont exclues du score
+     * de leur catégorie, mais restent comptabilisées
+     * dans le taux de complétude.
+     */
+    const categories = categoriesData.categories.map(
+      (categorie) => {
+        const questionsCategorie =
+          questions.filter(
+            (question) =>
+              question.categorie === categorie.id
+          );
+
+        const scoresReponses = questionsCategorie
+          .map((question) => {
+            const reponseId =
+              reponsesChoisies[question.id];
+
+            const reponseSelectionnee =
+              question.reponses.find(
+                (reponse) =>
+                  reponse.id === reponseId
+              );
+
+            return reponseSelectionnee?.score;
+          })
+          .filter(
+            (score) =>
+              typeof score === "number"
+          );
+
+        const scoreTotalCategorie =
+          scoresReponses.reduce(
+            (total, score) => total + score,
+            0
+          );
+
+        const nombreQuestionsCategorie =
+          questionsCategorie.length;
+
+        const nombreReponsesCategorie =
+          scoresReponses.length;
+
+        const scoreMoyen =
+          nombreReponsesCategorie > 0
+            ? Math.round(
+                (scoreTotalCategorie /
+                  nombreReponsesCategorie) *
+                  100
+              ) / 100
+            : null;
+
+        const indiceCategorie =
+          scoreMoyen !== null
+            ? Math.round(
+                (scoreMoyen / 3) * 100
+              )
+            : null;
+
+        const completudeCategorie =
+          nombreQuestionsCategorie > 0
+            ? Math.round(
+                (nombreReponsesCategorie /
+                  nombreQuestionsCategorie) *
+                  100
+              )
+            : 0;
+
+        return {
+          id: categorie.id,
+          label: categorie.label,
+          description_resultat:
+            categorie.description_resultat,
+          scoreTotal: scoreTotalCategorie,
+          nombreQuestions:
+            nombreQuestionsCategorie,
+          nombreReponses:
+            nombreReponsesCategorie,
+          scoreMoyen,
+          indice: indiceCategorie,
+          completude: completudeCategorie,
+        };
+      }
+    );
 
     const tempsEnregistres = Object.values(
       tempsQuestions.current
@@ -187,7 +307,10 @@ export default function PageQuestionnaire() {
     const tempsMoyenSecondes =
       tempsEnregistres.length > 0
         ? Math.round(
-            (tempsTotal / tempsEnregistres.length / 1000) * 10
+            (tempsTotal /
+              tempsEnregistres.length /
+              1000) *
+              10
           ) / 10
         : 0;
 
@@ -198,9 +321,13 @@ export default function PageQuestionnaire() {
       tauxCompletude,
       tempsMoyenSecondes,
       nombreReponsesModifiees,
-      nombreClics: nombreClicsRef.current + 1,
-      nombreClicsPrecedents: nombreClicsPrecedentsRef.current,
-      nombreClicsAide: nombreClicsAideRef.current,
+      nombreClics:
+        nombreClicsRef.current + 1,
+      nombreClicsPrecedents:
+        nombreClicsPrecedentsRef.current,
+      nombreClicsAide:
+        nombreClicsAideRef.current,
+      categories,
     };
   }
 
@@ -208,6 +335,7 @@ export default function PageQuestionnaire() {
     enregistrerTempsQuestion();
 
     const questionId = questionActuelle.id;
+
     const tempsQuestionActuelle =
       tempsQuestions.current[questionId];
 
@@ -215,14 +343,19 @@ export default function PageQuestionnaire() {
       ...tempsQuestions.current,
       [questionId]:
         tempsQuestionActuelle ??
-        Date.now() - tempsDebutQuestions.current[questionId],
+        Date.now() -
+          tempsDebutQuestions.current[questionId],
     };
 
-    tempsQuestions.current = tempsQuestionsComplets;
+    tempsQuestions.current =
+      tempsQuestionsComplets;
 
-    const resultatCalcule = calculerResultat();
+    const resultatCalcule =
+      calculerResultat();
 
-    const tempsEnregistres = Object.values(tempsQuestionsComplets);
+    const tempsEnregistres = Object.values(
+      tempsQuestionsComplets
+    );
 
     const tempsTotal = tempsEnregistres.reduce(
       (total, temps) => total + temps,
@@ -232,7 +365,10 @@ export default function PageQuestionnaire() {
     const tempsMoyenSecondes =
       tempsEnregistres.length > 0
         ? Math.round(
-            (tempsTotal / tempsEnregistres.length / 1000) * 10
+            (tempsTotal /
+              tempsEnregistres.length /
+              1000) *
+              10
           ) / 10
         : 0;
 
@@ -282,7 +418,8 @@ export default function PageQuestionnaire() {
         </p>
 
         <p style={{ color: "#3B3B3B" }}>
-          Question {questionIndex + 1} sur {questions.length}
+          Question {questionIndex + 1} sur{" "}
+          {questions.length}
         </p>
 
         <h1>{questionActuelle.texte}</h1>
@@ -295,7 +432,9 @@ export default function PageQuestionnaire() {
             return (
               <button
                 key={reponse.id}
-                onClick={() => choisirReponse(reponse.id)}
+                onClick={() =>
+                  choisirReponse(reponse.id)
+                }
                 style={{
                   display: "block",
                   width: "100%",
