@@ -13,52 +13,52 @@
     {
       "id": "precipitation",
       "label": "Précipitation",
-      "description_resultat": ""
+      "description_resultat": "Un bon score indique une remarquable capacité à agir avant que la pensée n'ait eu le temps de déposer son dossier. Vous avancez vite, parfois directement vers une décision qui aurait gagné à attendre quelques secondes."
     },
     {
       "id": "confiance-excessive",
       "label": "Confiance excessive",
-      "description_resultat": ""
+      "description_resultat": "Un bon score révèle une foi impressionnante en vos propres conclusions, y compris lorsqu'elles ont été produites sans preuve, sans méthode et parfois sans témoin. L'assurance est là ; les vérifications sont actuellement en déplacement."
     },
     {
       "id": "mauvaise-foi",
       "label": "Mauvaise foi",
-      "description_resultat": ""
+      "description_resultat": "Un bon score témoigne d'une grande souplesse argumentative : vous pouvez défendre presque n'importe quelle position, à condition de modifier légèrement les règles en cours de route. L'Observatoire salue cette résistance remarquable aux faits encombrants."
     },
     {
       "id": "credulite",
       "label": "Crédulité",
-      "description_resultat": ""
+      "description_resultat": "Un bon score indique une ouverture d'esprit si vaste que les informations douteuses y entrent sans même retirer leurs chaussures. Vous accordez volontiers votre confiance aux affirmations qui se présentent avec suffisamment d'aplomb."
     },
     {
       "id": "rationalisation",
       "label": "Rationalisation",
-      "description_resultat": ""
+      "description_resultat": "Un bon score révèle une aptitude supérieure à fabriquer une explication logique après avoir pris une décision parfaitement illogique. Le raisonnement n'a peut-être pas guidé l'action, mais il est arrivé juste à temps pour rédiger le rapport."
     },
     {
       "id": "inattention",
       "label": "Inattention",
-      "description_resultat": ""
+      "description_resultat": "Un bon score suggère que votre attention sait faire preuve d'une indépendance exceptionnelle. Elle se dirige spontanément vers le détail inutile, le bruit suspect ou le bouton déjà cliqué, laissant l'information importante poursuivre seule son chemin."
     },
     {
       "id": "effet-de-groupe",
       "label": "Effet de groupe",
-      "description_resultat": ""
+      "description_resultat": "Un bon score indique une capacité remarquable à considérer qu'une idée devient pertinente dès qu'elle est partagée par plusieurs personnes. À partir de trois participants, une erreur collective peut même prendre l'apparence rassurante d'une décision."
     },
     {
       "id": "surinterpretation",
       "label": "Surinterprétation",
-      "description_resultat": ""
+      "description_resultat": "Un bon score révèle un talent certain pour transformer un détail banal en indice majeur, puis en théorie générale, voire en signal envoyé personnellement par l'univers. Rien n'est laissé au hasard, surtout lorsque le hasard était parfaitement suffisant."
     },
     {
       "id": "acharnement-inutile",
       "label": "Acharnement inutile",
-      "description_resultat": ""
+      "description_resultat": "Un bon score témoigne d'une persévérance admirable face à une stratégie qui ne fonctionne manifestement pas. Plutôt que de changer d'approche, vous préférez lui offrir une nouvelle chance, puis une dernière, puis une dernière dernière."
     },
     {
       "id": "reaction-disproportionnee",
       "label": "Réaction disproportionnée",
-      "description_resultat": ""
+      "description_resultat": "Un bon score indique une capacité à mobiliser des moyens considérables pour répondre à des événements modestes. Une erreur de frappe peut ainsi recevoir le traitement réservé aux catastrophes nationales, avec analyse, indignation et plan d'urgence."
     }
   ]
 }
