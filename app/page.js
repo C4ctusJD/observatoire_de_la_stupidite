@@ -8,11 +8,7 @@ export default function PageAccueil() {
       {/* Bandeau institutionnel */}
       <div className={styles.bandeauRepublique}>
   <div className={styles.conteneurBandeau}>
-    <img
-      src="/images/logo_unsi.png"
-      alt="Logo de l’Université Nationale des Sciences Inutiles"
-      className={styles.logoUnsi}
-    />
+    
 
     <div className={styles.texteUnsi}>
       <strong>Université Nationale des Sciences Inutiles</strong>
