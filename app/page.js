@@ -7,23 +7,22 @@ export default function PageAccueil() {
     <main className={styles.page}>
       {/* Bandeau institutionnel */}
       <div className={styles.bandeauRepublique}>
-        <div className={styles.conteneur}>
-          <img
-                src="/images/logo_unsi.png"
-                alt="Logo de L’Université Nationale des Sciences Inutiles"
-                className={styles.logo}
-              />
+  <div className={styles.conteneurBandeau}>
+    <img
+      src="/images/logo_unsi.png"
+      alt="Logo de l’Université Nationale des Sciences Inutiles"
+      className={styles.logoUnsi}
+    />
 
-          <div>
-            <strong>Université Nationale des Sciences Inutiles</strong>
-            <br />
+    <div className={styles.texteUnsi}>
+      <strong>Université Nationale des Sciences Inutiles</strong>
 
-            <span className={styles.sousTexte}>
-              In dubio, clicca iterum.
-            </span>
-          </div>
-        </div>
-      </div>
+      <span className={styles.sousTexte}>
+        In dubio, clicca iterum.
+      </span>
+    </div>
+  </div>
+</div>
 
       {/* En-tête */}
       <header className={styles.header}>
