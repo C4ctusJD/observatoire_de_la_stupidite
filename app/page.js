@@ -45,8 +45,9 @@ export default function PageAccueil() {
             </Link>
 
             <div className={styles.reference}>
-              <span>Organisme n° 001</span>
+              <span>Organisme n° 00X85JU527V8</span>
               <span>Protocole expérimental</span>
+              <span>Tout va bien se passer</span>
             </div>
           </div>
 
